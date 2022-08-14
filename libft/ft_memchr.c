@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/31 19:39:49 by qsergean          #+#    #+#             */
-/*   Updated: 2022/07/31 19:42:16 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/12 18:31:17 by qsergean          #+#    #+#             */
+/*   Updated: 2021/10/12 20:06:09 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "libft.h"
+// #include <stdio.h>
+// #include <string.h>
 
-int main(int argc, char **argv, char **envp)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	int i;
+	char	*p;
 
-	i = 0;
-	while (envp[i])
+	p = (char *)s;
+	while (n--)
 	{
-		printf("%s\n", envp[i]);
-		i++;
+		if (*p == (char)c)
+			return (p);
+		p++;
 	}
-		
+	return (NULL);
 }
+
+// int	main(void)
+// {
+// 	char	str[] = "biba i boba";
+
+// 	printf("%p\n", ft_memchr(str, '\0', 20));
+// 	printf("%p\n", memchr(str, '\0', 20));
+// }

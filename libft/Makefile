@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 13:38:47 by qsergean          #+#    #+#              #
-#    Updated: 2022/08/15 00:06:33 by qsergean         ###   ########.fr        #
+#    Updated: 2022/08/15 16:30:43 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,14 +23,12 @@ SRCS	=	ft_isalpha.c		ft_isdigit.c		ft_isalnum.c\
 			ft_strjoin.c		ft_strtrim.c		ft_split.c\
 			ft_itoa.c			ft_strmapi.c		ft_striteri.c\
 			ft_putchar_fd.c		ft_putstr_fd.c		ft_putendl_fd.c\
-			ft_putnbr_fd.c
-
-SRCS_B	=	ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c\
+			ft_putnbr_fd.c\
+			ft_lstnew.c			ft_lstadd_front.c	ft_lstsize.c\
 			ft_lstlast.c		ft_lstadd_back.c	ft_lstdelone.c\
 			ft_lstclear.c		ft_lstiter.c		ft_lstmap.c
 
 OBJS	= ${SRCS:.c=.o}
-OBJS_B	= ${SRCS_B:.c=.o}
 HEADER	= libft.h
 
 LIBC	= ar rc
@@ -50,7 +48,6 @@ ${NAME}: ${OBJS} ${HEADER}
 	${LIBR} ${NAME}
 
 bonus: ${NAME}
-	make OBJS="${OBJS_B}" all
  
 clean:
 	${RM} ${OBJS} ${OBJS_B}

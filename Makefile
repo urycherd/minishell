@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/08/14 23:57:29 by qsergean         ###   ########.fr        #
+#    Updated: 2022/08/16 00:16:40 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ OBJSDIR			=	./objs
 SRCS			=	minishell.c
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 
-LIBFT			=	
+LIBFT			=	./libft/libft.a
 
 HEADER			=	incs/minishell.h
 MAKE			= 	Makefile
@@ -26,26 +26,31 @@ MAKE			= 	Makefile
 LIBC			=	ar rc
 LIBR			=	ranlib
 
-CC				=	gcc
-CFLAGS			=	-Wall -Wextra -Werror\
+CC				=	cc
+CFLAGS			=	-Wall -Wextra\
 					-lreadline\
 					-L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib\
 					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include
 RM				=	rm -rf
 
-$(OBJSDIR)/%.o: $(SRCSDIR)/%.c ${HEADER} ${MAKE}
+all: $(LIBFT) ${NAME} 
+
+$(OBJSDIR)/%.o: $(SRCSDIR)/%.c ${HEADER} ${MAKE} 
 	${CC} ${CFLAGS} -c $< -o $@ 
 
-all: ${NAME} 
+$(LIBFT):
+	@cd libft && make bonus
 
-${NAME}: ${OBJS}
-	$(CC) ${CFLAGS} -o $(NAME) $(OBJS)
+${NAME}: $(OBJS) $(OBJSDIR)
+	$(CC) ${CFLAGS} $(LIBFT) -o $(NAME) $(OBJS)
 
 clean:
 	${RM} ${OBJS}
+	@cd libft && make clean
 
 fclean: clean
 	${RM} ${NAME}
+	@cd libft && make fclean
 
 re: fclean all
 

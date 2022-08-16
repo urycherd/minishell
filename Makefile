@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/08/16 00:16:40 by qsergean         ###   ########.fr        #
+#    Updated: 2022/08/16 20:07:27 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ LIBC			=	ar rc
 LIBR			=	ranlib
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra\
-					-lreadline\
+CFLAGS			=	-Wall -Wextra -Werror
+RFLAGS			=	-lreadline\
 					-L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib\
 					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include
 RM				=	rm -rf
@@ -42,7 +42,7 @@ $(LIBFT):
 	@cd libft && make bonus
 
 ${NAME}: $(OBJS) $(OBJSDIR)
-	$(CC) ${CFLAGS} $(LIBFT) -o $(NAME) $(OBJS)
+	$(CC) ${CFLAGS} $(RFLAGS) $(LIBFT) -o $(NAME) $(OBJS)
 
 clean:
 	${RM} ${OBJS}
@@ -54,4 +54,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re .c.o
+.PHONY: all clean fclean re .c.o$PATH$

@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/08/16 20:07:27 by qsergean         ###   ########.fr        #
+#    Updated: 2022/08/19 23:52:21 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,4 +54,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re .c.o$PATH$
+.PHONY: all clean fclean re .c.o

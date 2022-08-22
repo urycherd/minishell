@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/08/16 23:40:58 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/08/21 23:14:06 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ void	signal_handler(int sig, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
-	if (sig == SIGQUIT || sig == SIGINT) // ctrl backslash
+	if (sig == SIGINT)
 	{
-		write(2, "\n", 1);
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
+		rl_redisplay();
+	}
+	else if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
 		rl_redisplay();
 	}
 }
@@ -35,9 +40,13 @@ void	deal_with_signals(void)
 	sigaction(SIGQUIT, &act, 0);
 }
 
+void	read_input(char *input)
+{
+	add_history(input);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char	*read;
 	char	*input;
 
 	(void)argv;
@@ -48,18 +57,21 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	}
 	deal_with_signals();
-	ft_putstr_fd("minish-1.0$ ", 1);
-	read = NULL;
+	while (*envp)
+	{
+		printf("%s\n", *envp);
+		envp++;
+	}
 	while (1)
 	{
-		input = readline(read);
+		rl_outstream = stderr;
+		input = readline("minish-1.0$ ");
 		if (input == NULL)
 		{
-			ft_putstr_fd("exit\n", 1);
+			ft_putstr_fd("exit\n", 2);
 			exit(0);
 		}
-		// read_input(read);
-		ft_putstr_fd("minish-1.0$ ", 1);
+		else if (input && *input)
+			read_input(input);
 	}
-	printf("%s\n", readline(read));
 }

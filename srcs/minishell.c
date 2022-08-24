@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/08/21 23:14:06 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/08/25 00:00:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,40 @@ void	deal_with_signals(void)
 	sigaction(SIGQUIT, &act, 0);
 }
 
+void	skip_spaces(char **str)
+{
+	while (**str == ' ' || **str == '\t' || **str == '\v'
+		|| **str == '\f' || **str == '\r')
+		*str += 1;
+}
+
+void	get_word(char **str)
+{
+	int		i;
+	char	*tmp_word;
+	
+	i = 0;
+	tmp_word = "";
+	
+	while (**str != ' ' && **str != '\t' && **str != '\v'
+		&& **str != '\f' && **str != '\r')
+	{
+		tmp_word[i] = **str;
+		i++;
+		*str += 1;
+	}
+	tmp_word[i] = '\0';
+	printf("%s\n", tmp_word);
+}
+
 void	read_input(char *input)
 {
 	add_history(input);
+	while (*input && *input != '\n')
+	{
+		skip_spaces(&input);
+		get_word(&input);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -57,14 +88,15 @@ int	main(int argc, char **argv, char **envp)
 		return (-1);
 	}
 	deal_with_signals();
-	while (*envp)
-	{
-		printf("%s\n", *envp);
-		envp++;
-	}
+	// while (*envp)
+	// {
+	// 	printf("%s\n", *envp);
+	// 	envp++;
+	// }
+	printf("\v");
 	while (1)
 	{
-		rl_outstream = stderr;
+		// rl_outstream = stderr;
 		input = readline("minish-1.0$ ");
 		if (input == NULL)
 		{

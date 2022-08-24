@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/08/19 23:52:21 by qsergean         ###   ########.fr        #
+#    Updated: 2022/08/24 17:53:50 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror
 RFLAGS			=	-lreadline\
 					-L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib\
-					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include
+					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include\
+					-ltermcap
 RM				=	rm -rf
 
 all: $(LIBFT) ${NAME} 

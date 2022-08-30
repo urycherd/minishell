@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:27:36 by qsergean          #+#    #+#             */
-/*   Updated: 2022/08/24 21:39:19 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/08/29 15:53:10 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ enum e_tokens
 
 typedef struct s_list
 {
+	// int				index;
 	void			*content;
-	int				index;
-	struct s_list	*next;
 	enum e_tokens	token;
+	struct s_list	*next;
 }					t_list;
 
 int		ft_isalpha(int c);

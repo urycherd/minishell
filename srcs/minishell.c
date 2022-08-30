@@ -6,73 +6,98 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/08/25 00:00:14 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/08/29 20:54:58 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
-void	signal_handler(int sig, siginfo_t *info, void *context)
+int	g_status = 0;
+
+// void	skip_spaces(char **str)
+// {
+// 	while (**str == ' ' || **str == '\t' || **str == '\v'
+// 		|| **str == '\f' || **str == '\r')
+// 		*str += 1;
+// }
+
+// void	get_word(char **str)
+// {
+// 	int		i;
+// 	char	tmp_word[20];
+	
+// 	i = 0;
+	
+// 	while (**str != ' ' && **str != '\t' && **str != '\v'
+// 		&& **str != '\f' && **str != '\r' && **str)
+// 	{
+// 		tmp_word[i] = **str;
+// 		i++;
+// 		*str += 1;
+// 	}
+// 	tmp_word[i] = '\0';
+// 	printf("%s\n", tmp_word);
+// }
+
+void	assign_token(t_list **elem)
 {
-	(void)info;
-	(void)context;
-	if (sig == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-		rl_replace_line("", 1);
-		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-	}
+	if (ft_strncmp((char *)(*elem)->content, "" )
 }
 
-void	deal_with_signals(void)
+t_list	*make_list(char **words)
 {
-	struct sigaction	act;
-
-	act.sa_flags = SA_SIGINFO;
-	act.sa_sigaction = signal_handler;
-	sigaction(SIGINT, &act, 0);
-	sigaction(SIGQUIT, &act, 0);
-}
-
-void	skip_spaces(char **str)
-{
-	while (**str == ' ' || **str == '\t' || **str == '\v'
-		|| **str == '\f' || **str == '\r')
-		*str += 1;
-}
-
-void	get_word(char **str)
-{
+	t_list	*head;
+	t_list	*elem;
 	int		i;
-	char	*tmp_word;
-	
+
+	list = ft_lstnew((void)words[0]);
+	if (list == NULL)
+		exit(1);
 	i = 0;
-	tmp_word = "";
-	
-	while (**str != ' ' && **str != '\t' && **str != '\v'
-		&& **str != '\f' && **str != '\r')
+	while (words[++i])
 	{
-		tmp_word[i] = **str;
-		i++;
-		*str += 1;
+		elem = ft_lstnew((void)words[i]);
+		if (elem == NULL)
+			exit(1);
+		assign_token(&elem);
+		ft_lstadd_back(&head, elem);
 	}
-	tmp_word[i] = '\0';
-	printf("%s\n", tmp_word);
+	return (head);
+}
+
+void	change_to_spaces(char **str)
+{
+	int	i;
+	
+	while (str[0][i])
+	{
+		if (str[0][i] == '\t' || str[0][i] == '\v'
+			|| str[0][i] == '\f' || str[0][i] == '\r')
+		{
+			str[0][i] = ' ';
+			i++;
+		}
+		else
+			i++;
+	}
 }
 
 void	read_input(char *input)
 {
+	char	**words;
+
 	add_history(input);
-	while (*input && *input != '\n')
+	// while (*input && *input != '\n')
+	// {
+	// 	skip_spaces(&input);
+	// 	get_word(&input);
+	// }
+	change_to_spaces(&input);
+	words = ft_split(input, ' ');
+	while(*words)
 	{
-		skip_spaces(&input);
-		get_word(&input);
+		printf("%s\n", *words);
+		words++;
 	}
 }
 
@@ -93,8 +118,7 @@ int	main(int argc, char **argv, char **envp)
 	// 	printf("%s\n", *envp);
 	// 	envp++;
 	// }
-	printf("\v");
-	while (1)
+	while (!g_status)
 	{
 		// rl_outstream = stderr;
 		input = readline("minish-1.0$ ");

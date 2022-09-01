@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/08/29 20:54:58 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/01 17:41:00 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,9 @@ void	read_input(char *input)
 
 int	main(int argc, char **argv, char **envp)
 {
+	// 0. init part
 	char	*input;
+	t_info	info;
 
 	(void)argv;
 	(void)envp;
@@ -118,10 +120,18 @@ int	main(int argc, char **argv, char **envp)
 	// 	printf("%s\n", *envp);
 	// 	envp++;
 	// }
-	while (!g_status)
+
+	// нужно проиницилизировать частично исходную структуру тут
+	info->exit_t = 0;
+	while (info.exit_t)
 	{
 		// rl_outstream = stderr;
+		
+		// 1.readline part
 		input = readline("minish-1.0$ ");
+		
+		// 2.lexer part??
+		// 3.parser part??
 		if (input == NULL)
 		{
 			ft_putstr_fd("exit\n", 2);
@@ -130,4 +140,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (input && *input)
 			read_input(input);
 	}
+
+	// 4.executor part
+	
 }

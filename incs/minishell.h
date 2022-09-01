@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/08/29 15:12:33 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/01 17:37:46 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,18 @@
 	
 # include <curses.h>
 # include <term.h>
+
+typedef struct s_info
+{
+	// t_builtin_ptr	builthes[7];
+	// char			builtin_names[7];
+	// char			**envp;
+	// t_list			envpp_list;
+	// char			envp_f;
+	char			exit_t;
+	// int				status;
+	
+}		t_info;
 
 void	deal_with_signals(void);
 

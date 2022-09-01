@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/01 17:41:00 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/01 18:19:55 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int	main(int argc, char **argv, char **envp)
 	// }
 
 	// нужно проиницилизировать частично исходную структуру тут
-	info->exit_t = 0;
+	info.exit_t = 0;
 	while (info.exit_t)
 	{
 		// rl_outstream = stderr;

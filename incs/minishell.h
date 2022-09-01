@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/01 17:37:46 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/01 18:25:43 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_info
 	// char			**envp;
 	// t_list			envpp_list;
 	// char			envp_f;
-	char			exit_t;
+	char			exit_f;
 	// int				status;
 	
 }		t_info;

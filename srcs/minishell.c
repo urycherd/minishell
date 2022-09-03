@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/01 18:25:44 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/03 16:33:19 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	g_status = 0;
 // 	printf("%s\n", tmp_word);
 // }
 
-void	assign_token(t_list **elem)
-{
-	if (ft_strncmp((char *)(*elem)->content, "" )
-}
+// void	assign_token(t_list **elem)
+// {
+// 	if (ft_strncmp((char *)(*elem)->content, "" )
+// }
 
 t_list	*make_list(char **words)
 {
@@ -50,16 +50,16 @@ t_list	*make_list(char **words)
 	t_list	*elem;
 	int		i;
 
-	list = ft_lstnew((void)words[0]);
-	if (list == NULL)
+	head = ft_lstnew((void *)words[0]);
+	if (head == NULL)
 		exit(1);
 	i = 0;
 	while (words[++i])
 	{
-		elem = ft_lstnew((void)words[i]);
+		elem = ft_lstnew((void *)words[i]);
 		if (elem == NULL)
 			exit(1);
-		assign_token(&elem);
+		// assign_token(&elem);
 		ft_lstadd_back(&head, elem);
 	}
 	return (head);
@@ -69,6 +69,7 @@ void	change_to_spaces(char **str)
 {
 	int	i;
 	
+	i = 0;
 	while (str[0][i])
 	{
 		if (str[0][i] == '\t' || str[0][i] == '\v'
@@ -123,7 +124,7 @@ int	main(int argc, char **argv, char **envp)
 
 	// нужно проиницилизировать частично исходную структуру тут
 	info.exit_f = 0;
-	while (info.exit_f)
+	while (!g_status)
 	{
 		// rl_outstream = stderr;
 		

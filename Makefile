@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/08/29 15:12:45 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/03 16:32:10 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,11 @@ $(OBJSDIR)/%.o: $(SRCSDIR)/%.c ${HEADER} ${MAKE}
 $(LIBFT):
 	@cd libft && make bonus
 
-# ${NAME}: $(OBJS) $(OBJSDIR)
-# 	$(CC) ${CFLAGS} $(RFLAGS) $(LIBFT) -o $(NAME) $(OBJS)
-
 ${NAME}: $(OBJS) $(OBJSDIR)
-	$(CC) ${CFLAGS} $(OBJS) $(RFLAGS) $(LIBFT) -o $(NAME)
+	$(CC) ${CFLAGS} $(RFLAGS) $(LIBFT) -o $(NAME) $(OBJS)
+
+# ${NAME}: $(OBJS) $(OBJSDIR)
+# 	$(CC) ${CFLAGS} $(OBJS) $(RFLAGS) $(LIBFT) -o $(NAME)
 
 clean:
 	${RM} ${OBJS}

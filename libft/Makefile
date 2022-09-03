@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 13:38:47 by qsergean          #+#    #+#              #
-#    Updated: 2022/08/15 16:30:43 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/03 16:33:56 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ HEADER	= libft.h
 LIBC	= ar rc
 LIBR	= ranlib
 
-CC		= gcc
+CC		= cc
 CFLAGS	= -Wall -Wextra -Werror
 RM		= rm -f
 

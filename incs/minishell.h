@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/01 18:25:43 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/08 12:56:47 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ typedef struct s_info
 }		t_info;
 
 void	deal_with_signals(void);
+int		ft_echo(char **args);
+
 
 #endif

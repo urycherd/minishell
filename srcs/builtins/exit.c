@@ -6,8 +6,11 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:05 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/08 11:08:52 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/09 18:39:26 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_exit()
+{}

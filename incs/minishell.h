@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/08 12:56:47 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:33:36 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 	
 # include <curses.h>
 # include <term.h>
+
+# define MAX_PATH 256 
+
 
 typedef struct s_info
 {

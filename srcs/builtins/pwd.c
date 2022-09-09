@@ -6,8 +6,20 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/08 11:08:47 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/09 15:34:06 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_pwd(void) // перед вызовом надо проверять, что аргументов нет
+{
+	char	cwd[MAX_PATH];
+
+	if (getcwd(cwd, MAX_PATH))
+	{
+		ft_putstr_fd(cwd, 1);
+		return (0);
+	}
+	return (1);
+}

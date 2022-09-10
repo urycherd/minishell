@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/10 17:46:13 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/10 18:07:40 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	go_to(t_list *env, char *name, )
 	if (!(new_pwd == ft_strjoin("PWD=", cwd)))
 		return (1); 
 	// сохраняем new_path в env
-	
+	ft_change_env();
 	// сохраняем старую в env	
 
 	free(old_pwd);

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/01 18:25:43 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/09 17:08:27 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <curses.h>
 # include <term.h>
 
+# define MAX_PATH 256 
+
+
 typedef struct s_info
 {
 	// t_builtin_ptr	builthes[7];
@@ -35,6 +38,18 @@ typedef struct s_info
 	
 }		t_info;
 
+typedef struct s_list
+{
+	char			*content;
+	struct s_list	*next;
+}		t_list;
+
 void	deal_with_signals(void);
+int		ft_echo(char **args);
+int		ft_env(t_list *env);
+int		ft_pwd(void);
+int		ft_echo(char **args);
+
+
 
 #endif

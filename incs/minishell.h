@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/09 17:08:27 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/12 20:44:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@
 
 # define MAX_PATH 256 
 
+typedef	struct s_main
+{
+	
+}
 
 typedef struct s_info
 {
@@ -49,7 +53,5 @@ int		ft_echo(char **args);
 int		ft_env(t_list *env);
 int		ft_pwd(void);
 int		ft_echo(char **args);
-
-
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 20:42:39 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/12 14:38:47 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../incs/libft.h"
 
 int	ft_toupper(int c)
 {

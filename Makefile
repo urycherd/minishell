@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/10 23:27:19 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/13 23:29:34 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ ${NAME}: $(OBJS) $(OBJSDIR)
 # ${NAME}: $(OBJS) $(OBJSDIR)
 # 	$(CC) ${CFLAGS} $(OBJS) $(RFLAGS) $(LIBFT) -o $(NAME)
 
-clean:`
+clean:
 	${RM} ${OBJS}
 	@cd libft && make clean
 

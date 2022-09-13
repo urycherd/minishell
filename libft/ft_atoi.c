@@ -6,13 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 16:13:59 by qsergean          #+#    #+#             */
-/*   Updated: 2021/11/12 20:58:02 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
-// #include <stdlib.h>
+#include "../incs/libft.h"
 
 static const char	*ft_isspace(const char *str)
 {
@@ -69,11 +67,3 @@ int	ft_atoi(const char *str)
 		new = -new;
 	return (new);
 }
-
-// int	main(void)
-// {
-// 	char	*str = "    -  54ddd";
-
-// 	printf("%d\n", atoi(str));
-// 	printf("%d\n", ft_atoi(str));
-// }

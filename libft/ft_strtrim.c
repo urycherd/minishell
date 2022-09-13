@@ -6,12 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 17:50:44 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/26 20:01:29 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
+#include "../incs/libft.h"
 
 static int	ft_belongs(char c, char const *str)
 {
@@ -51,11 +50,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	res[i] = '\0';
 	return (res);
 }
-
-// int	main(void)
-// {
-// 	char	*str = "          ";
-// 	char	*set = " ";
-
-// 	printf("%s\n", ft_strtrim(str, set));
-// }

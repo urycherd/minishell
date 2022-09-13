@@ -6,11 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/23 19:55:05 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/23 20:51:26 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../incs/libft.h"
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {

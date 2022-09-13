@@ -6,13 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 18:31:17 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/12 20:06:09 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
-// #include <string.h>
+#include "../incs/libft.h"
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {
@@ -27,11 +25,3 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	}
 	return (NULL);
 }
-
-// int	main(void)
-// {
-// 	char	str[] = "biba i boba";
-
-// 	printf("%p\n", ft_memchr(str, '\0', 20));
-// 	printf("%p\n", memchr(str, '\0', 20));
-// }

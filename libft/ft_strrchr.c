@@ -6,13 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 16:44:15 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/12 17:12:36 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
-// #include <string.h>
+#include "../incs/libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
@@ -31,11 +29,3 @@ char	*ft_strrchr(const char *s, int c)
 		return (p);
 	return (res);
 }
-
-// int	main(void)
-// {
-// 	char str[]= "biba i boba";
-
-// 	printf("%p\n", ft_strrchr(str, 'z'));
-// 	printf("%p\n", strrchr(str, 'z'));
-// }

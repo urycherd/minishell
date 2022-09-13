@@ -6,12 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 17:22:10 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/26 20:16:47 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
+#include "../incs/libft.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -41,11 +40,3 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	res[i] = '\0';
 	return (res);
 }
-
-// int	main(void)
-// {
-// 	char	*pre = NULL;
-// 	char	*post = "cringe";
-
-// 	printf("%s\n", ft_strjoin(pre, post));
-// }

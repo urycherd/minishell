@@ -6,29 +6,32 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/12 20:44:14 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:20:05 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft.h"
 # include <stdio.h>
-# include <stdlib.h>
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libft/libft.h"
-	
+
 # include <curses.h>
 # include <term.h>
 
-# define MAX_PATH 256 
+# define MAX_PATH 256
+# ifndef OK
+#  define OK 0
+# endif
 
-typedef	struct s_main
+typedef struct s_main
 {
-	
-}
+	t_list	*env;
+	t_list	*lexems;
+}	t_main;
 
 typedef struct s_info
 {
@@ -39,14 +42,7 @@ typedef struct s_info
 	// char			envp_f;
 	char			exit_f;
 	// int				status;
-	
-}		t_info;
-
-typedef struct s_list
-{
-	char			*content;
-	struct s_list	*next;
-}		t_list;
+}	t_info;
 
 void	deal_with_signals(void);
 int		ft_echo(char **args);

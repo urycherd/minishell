@@ -6,13 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 19:28:08 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/23 16:38:34 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
-// #include <string.h>
+#include "../incs/libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
@@ -33,13 +31,3 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	dst[i] = '\0';
 	return (len);
 }
-
-// int	main(void)
-// {
-// 	char s1[] = "rrrrrrrrrrrrrrr";
-// 	char *s2 = "lorem ipsum dolor sit amet";
-// 	size_t	a;
-
-// 	a = ft_strlcat(s1, s2, 5);
-// 	printf("%zu\n%s\n%s\n", a, s1, s2);
-// }

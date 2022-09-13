@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:27:36 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/08 12:51:34 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:16:42 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 
 enum e_tokens
 {
+	TOKEN_SEP,
 	TOKEN_NEWLINE,
 	TOKEN_L_BRACKET,
 	TOKEN_R_BRACKET,
 	TOKEN_OUT_REDIR,
-	TOKEN_OUT_REDIR_AP,
+	TOKEN_OUT_REDIR_APPEND,
 	TOKEN_IN_REDIR,
 	TOKEN_HEREDOC,
 	TOKEN_PIPE,
@@ -33,9 +34,9 @@ enum e_tokens
 
 typedef struct s_list
 {
-	// int				index;
 	void			*content;
 	enum e_tokens	token;
+	int				len;
 	struct s_list	*next;
 }					t_list;
 

@@ -6,12 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 19:27:50 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/22 19:37:09 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
+#include "../incs/libft.h"
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -41,10 +40,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	res[i] = '\0';
 	return (res);
 }
-
-// int	main(void)
-// {
-// 	char str[] = "biba";
-
-// 	printf("%s\n", ft_substr(str, 7, 6));
-// }

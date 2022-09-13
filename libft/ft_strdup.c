@@ -6,15 +6,12 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 20:14:12 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/21 17:49:25 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../incs/libft.h"
 #include <sys/errno.h>
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <string.h>
 
 char	*ft_strdup(const char *s1)
 {
@@ -39,11 +36,3 @@ char	*ft_strdup(const char *s1)
 	*res = '\0';
 	return (start);
 }
-
-// int main(void)
-// {
-// 	char *str = "biba \0i bobla";
-// 	char *resultik = ft_strdup(str);
-
-// 	printf("%s\n%s\n", str, resultik);
-// }

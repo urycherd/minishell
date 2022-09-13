@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+         #
+#    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 13:38:47 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/08 12:51:59 by urycherd         ###   ########.fr        #
+#    Updated: 2022/09/13 23:15:23 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ SRCS	=	ft_isalpha.c		ft_isdigit.c		ft_isalnum.c\
 			ft_lstclear.c		ft_lstiter.c		ft_lstmap.c 
 
 OBJS	= ${SRCS:.c=.o}
-HEADER	= libft.h
+HEADER	= ../incs/libft.h
 
 LIBC	= ar rc
 LIBR	= ranlib

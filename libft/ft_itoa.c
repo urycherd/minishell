@@ -6,12 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/21 17:51:06 by qsergean          #+#    #+#             */
-/*   Updated: 2021/10/26 19:40:02 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-// #include <stdio.h>
+#include "../incs/libft.h"
 
 static long int	ft_abs(long int nb)
 {
@@ -63,10 +62,3 @@ char	*ft_itoa(int n)
 		res[0] = '-';
 	return (res);
 }
-
-// int	main(void)
-// {
-// 	int	num = 0;
-
-// 	printf("%s\n", ft_itoa(num));
-// }

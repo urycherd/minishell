@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
+#    By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/03 16:32:10 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/13 12:28:48 by urycherd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME			=	minishell
 SRCSDIR			=	./srcs
 OBJSDIR			=	./objs
 
-SRCS			=	minishell.c	signals.c
+SRCS			=	minishell.c	signals.c cd.c
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 
 LIBFT			=	./libft/libft.a

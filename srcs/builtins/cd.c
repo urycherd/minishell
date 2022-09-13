@@ -6,13 +6,24 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/10 18:07:40 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/13 12:48:53 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../incs/minishell.h"
 
-int	go_to(t_list *env, char *name, )
+// тестить надо + вывод ошибок 
+
+int	ft_change_env(char *name, char *path, t_list *env)
+{
+	while (ft_strcmp(name, env->content))
+		env = env->next;
+	free(env->content);
+	env->content = path;
+	return (0);
+}
+
+int	go_to(t_list *env, char *name)
 {
 	char	cwd[PATH_MAX];
 	char	*old_pwd;
@@ -24,7 +35,7 @@ int	go_to(t_list *env, char *name, )
 	// сохраняем текущую, тк она становится старой
 	if (getcwd(cwd, PATH_MAX) == NULL) 
 		return (1); 
-	if (!(old_pwd == ft_strjoin("OLDPWD=", cwd)))
+	if (!(old_pwd = ft_strjoin("OLDPWD=", cwd)))
 		return (1); 
 	// переходим на системном уровне в указанную path и задаем ее как новую
 	result = chdir(path);
@@ -32,12 +43,14 @@ int	go_to(t_list *env, char *name, )
 		return (result);
 	if (getcwd(cwd, PATH_MAX) == NULL) 
 		return (1); 
-	if (!(new_pwd == ft_strjoin("PWD=", cwd)))
+	if (!(new_pwd = ft_strjoin("PWD=", cwd)))
 		return (1); 
 	// сохраняем new_path в env
-	ft_change_env();
+	if (ft_change_env("PWD=", new_path, env)
+		return (1);
 	// сохраняем старую в env	
-
+	if (ft_change_env("OLDPWD=", old_path, env)
+		return (1);
 	free(old_pwd);
 	free(new_pwd);
 	free(path);

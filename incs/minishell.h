@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/13 23:20:05 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/14 23:39:07 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ typedef struct s_main
 {
 	t_list	*env;
 	t_list	*lexems;
+	int		d_quotes;
+	int		s_quotes;
 }	t_main;
 
 typedef struct s_info

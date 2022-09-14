@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/13 23:52:09 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/14 23:47:03 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,42 +65,51 @@ t_list	*make_list(char **words)
 	return (head);
 }
 
-void	change_to_spaces(char **str)
+int	change_to_spaces_and_check_quotes(char **str)
 {
 	int	i;
+	int	d_quotes;
+	int	s_quotes;
 	
-	i = 0;
-	while (str[0][i])
+	i = -1;
+	d_quotes = 0;
+	s_quotes = 0;
+	while (str[0][++i])
 	{
 		if (str[0][i] == '\t' || str[0][i] == '\v'
 			|| str[0][i] == '\f' || str[0][i] == '\r')
-		{
 			str[0][i] = ' ';
-			i++;
-		}
-		else
-			i++;
+		else if (str[0][i] == '\"')
+			d_quotes += 1;
+		else if (str[0][i] == '\'')
+			s_quotes += 1;
 	}
-}
-
-void	old_lexer(t_main **main, char *input)
-{
-	char	**words;
-
-	add_history(input);
-	// while (*input && *input != '\n')
-	// {
-	// 	skip_spaces(&input);
-	// 	get_word(&input);
-	// }
-	change_to_spaces(&input);
-	words = ft_split(input, ' ');
-	while(*words)
+	if (d_quotes % 2 != 0 || s_quotes % 2 != 0)
 	{
-		printf("%s\n", *words);
-		words++;
+		printf("Number of quotes is not matching!\n");
+		exit(EXIT_FAILURE);
 	}
+	return (i);
 }
+
+// void	old_lexer(t_main **main, char *input)
+// {
+// 	char	**words;
+
+// 	add_history(input);
+// 	// while (*input && *input != '\n')
+// 	// {
+// 	// 	skip_spaces(&input);
+// 	// 	get_word(&input);
+// 	// }
+// 	change_to_spaces(&input);
+// 	words = ft_split(input, ' ');
+// 	while(*words)
+// 	{
+// 		printf("%s\n", *words);
+// 		words++;
+// 	}
+// }
 
 void	lexer(t_main **main, char *input)
 {
@@ -108,9 +117,11 @@ void	lexer(t_main **main, char *input)
 	int		word_len;
 	char	*word;
 	t_list	*new_lexem;
+	int		len;
 
-	change_to_spaces(&input);
-	i = -1;	
+	add_history(input);
+	len = change_to_spaces_and_check_quotes(&input);
+	i = -1;
 	while (input[++i])
 	{
 		if (input[i] == ' ')
@@ -159,7 +170,11 @@ void	lexer(t_main **main, char *input)
 		}
 		else
 		{
+			new_lexem = ft_lstnew("");
 			word_len = 0;
+			word = (char *)malloc(sizeof(char) * 50);
+			if (word == NULL)
+				exit(EXIT_FAILURE);
 			while (input[i] != ' ' && input[i] != '\n'
 				&& input[i] != '\0')
 			{
@@ -167,7 +182,9 @@ void	lexer(t_main **main, char *input)
 				word_len++;
 				i++;
 			}
-			new_lexem = ft_lstnew(word);
+			word[word_len] = '\0';
+			new_lexem->content = (void *)ft_strdup(word);
+			free(word);
 			new_lexem->token = TOKEN_WORD;
 			new_lexem->len = word_len;
 			i--;
@@ -191,6 +208,18 @@ void	make_env_list(t_main **main, char **envp)
 		if (iter == NULL)
 			exit(EXIT_FAILURE);
 		ft_lstadd_back(&(*main)->env, iter);
+	}
+}
+
+void	print_lexems(t_main *main)
+{
+	t_list	*iter;
+
+	iter = main->lexems;
+	while (iter)
+	{
+		printf("[%s, %u, %d]\n", (char *)iter->content, iter->token, iter->len);
+		iter = iter->next;
 	}
 }
 
@@ -226,7 +255,9 @@ int	main(int argc, char **argv, char **envp)
 		// 2.lexer part
 		else if (input && *input)
 			lexer(&main, input);
+		print_lexems(main);
 		// 3.parser part
+		free(input);
 	}
 
 	// 4.executor part

@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:27:36 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/13 23:16:42 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/14 22:52:24 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,15 @@ enum e_tokens
 {
 	TOKEN_SEP,
 	TOKEN_NEWLINE,
-	TOKEN_L_BRACKET,
-	TOKEN_R_BRACKET,
+	TOKEN_PIPE,
+	TOKEN_WORD,
 	TOKEN_OUT_REDIR,
 	TOKEN_OUT_REDIR_APPEND,
 	TOKEN_IN_REDIR,
 	TOKEN_HEREDOC,
-	TOKEN_PIPE,
-	TOKEN_SEMICOLON,
-	TOKEN_WORD,
-	TOKEN_ENV
+	TOKEN_ENV,
+	TOKEN_L_BRACKET,
+	TOKEN_R_BRACKET
 };
 
 typedef struct s_list

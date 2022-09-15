@@ -6,38 +6,13 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/14 23:47:03 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/15 23:25:48 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
 
 int	g_status = OK;
-
-// void	skip_spaces(char **str)
-// {
-// 	while (**str == ' ' || **str == '\t' || **str == '\v'
-// 		|| **str == '\f' || **str == '\r')
-// 		*str += 1;
-// }
-
-// void	get_word(char **str)
-// {
-// 	int		i;
-// 	char	tmp_word[20];
-	
-// 	i = 0;
-	
-// 	while (**str != ' ' && **str != '\t' && **str != '\v'
-// 		&& **str != '\f' && **str != '\r' && **str)
-// 	{
-// 		tmp_word[i] = **str;
-// 		i++;
-// 		*str += 1;
-// 	}
-// 	tmp_word[i] = '\0';
-// 	printf("%s\n", tmp_word);
-// }
 
 // void	assign_token(t_list **elem)
 // {
@@ -92,24 +67,42 @@ int	change_to_spaces_and_check_quotes(char **str)
 	return (i);
 }
 
-// void	old_lexer(t_main **main, char *input)
-// {
-// 	char	**words;
+int	get_word_len(char *str, int i, char c)
+{
+	int	res;
 
-// 	add_history(input);
-// 	// while (*input && *input != '\n')
-// 	// {
-// 	// 	skip_spaces(&input);
-// 	// 	get_word(&input);
-// 	// }
-// 	change_to_spaces(&input);
-// 	words = ft_split(input, ' ');
-// 	while(*words)
-// 	{
-// 		printf("%s\n", *words);
-// 		words++;
-// 	}
-// }
+	res = 0;
+	while (str[i + res] && str[i + res] != c
+		&& str[i] != '\n')
+		res++;
+	return (res);
+}
+
+void	deal_with_quotes(t_list **new_lexem, char *input, int *i, char quote)
+{
+	int		len;
+	int		j;
+	char	*word;
+
+	*i += 1;
+	len = get_word_len(input, *i, quote);
+	word = (char *)malloc(sizeof(char) * len);
+	if (word == NULL)
+		exit(EXIT_FAILURE);
+	j = 0;
+	while (input[*i] != quote)
+	{
+		word[j] = input[*i];
+		j++;
+		*i += 1;
+	}
+	word[j] = '\0';
+	(*new_lexem)->content = ft_strdup(word);
+	(*new_lexem)->len = len;
+	(*new_lexem)->token = TOKEN_WORD;
+	if ((*new_lexem)->content == NULL)
+		exit(EXIT_FAILURE);
+}
 
 void	lexer(t_main **main, char *input)
 {
@@ -168,11 +161,19 @@ void	lexer(t_main **main, char *input)
 			new_lexem->token = TOKEN_PIPE;
 			new_lexem->len = 1;
 		}
+		else if (input[i] == '\n')
+		{
+			new_lexem = ft_lstnew("\n");
+			new_lexem->token = TOKEN_NEWLINE;
+			new_lexem->len = 1;
+		}
+		else if (input[i] == '\"')
+			deal_with_quotes(&new_lexem, input, &i, '\"');
 		else
 		{
 			new_lexem = ft_lstnew("");
 			word_len = 0;
-			word = (char *)malloc(sizeof(char) * 50);
+			word = (char *)malloc(sizeof(char) * get_word_len(input, i, ' '));
 			if (word == NULL)
 				exit(EXIT_FAILURE);
 			while (input[i] != ' ' && input[i] != '\n'

@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/15 23:25:48 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/16 23:27:37 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,119 +78,147 @@ int	get_word_len(char *str, int i, char c)
 	return (res);
 }
 
-void	deal_with_quotes(t_list **new_lexem, char *input, int *i, char quote)
-{
-	int		len;
-	int		j;
-	char	*word;
+// void	deal_with_quotes(t_list **new_lexem, char *input, int *i, char quote)
+// {
+// 	int		len;
+// 	int		j;
 
-	*i += 1;
-	len = get_word_len(input, *i, quote);
-	word = (char *)malloc(sizeof(char) * len);
-	if (word == NULL)
-		exit(EXIT_FAILURE);
-	j = 0;
-	while (input[*i] != quote)
-	{
-		word[j] = input[*i];
-		j++;
-		*i += 1;
-	}
-	word[j] = '\0';
-	(*new_lexem)->content = ft_strdup(word);
-	(*new_lexem)->len = len;
-	(*new_lexem)->token = TOKEN_WORD;
-	if ((*new_lexem)->content == NULL)
-		exit(EXIT_FAILURE);
-}
+// 	*i += 1;
+// 	len = get_word_len(input, *i, quote);
+// 	word = (char *)malloc(sizeof(char) * len);
+// 	if (word == NULL)
+// 		exit(EXIT_FAILURE);
+// 	j = 0;
+// 	while (input[*i] != quote)
+// 	{
+// 		word[j] = input[*i];
+// 		j++;
+// 		*i += 1;
+// 	}
+// 	word[j] = '\0';
+// 	*new_lexem = ft_lstnew(word);
+// 	(*new_lexem)->len = len;
+// 	(*new_lexem)->token = TOKEN_WORD;
+// 	if ((*new_lexem)->content == NULL)
+// 		exit(EXIT_FAILURE);
+// }
 
 void	lexer(t_main **main, char *input)
 {
 	int		i;
-	int		word_len;
-	char	*word;
 	t_list	*new_lexem;
-	int		len;
+	int		input_len;
+	t_lexem	*content;
+	int		j;
 
 	add_history(input);
-	len = change_to_spaces_and_check_quotes(&input);
-	i = -1;
-	while (input[++i])
+	input_len = change_to_spaces_and_check_quotes(&input);
+	(*main)->lexems = NULL;
+	i = 0;
+	while (input[i])
 	{
+		content = (t_lexem *)malloc(sizeof(t_lexem));
+		if (content == NULL)
+			exit(EXIT_FAILURE);
 		if (input[i] == ' ')
 		{
-			new_lexem = ft_lstnew(" ");
-			new_lexem->token = TOKEN_SEP;
-			new_lexem->len = 1;
+			// new_lexem = ft_lstnew(" ");
+			content->str = " ";
+			content->token = TOKEN_SEP;
+			content->len = 1;
 		}
 		else if (input[i] == '>')
 		{
 			if (input[i + 1] == '>')
 			{
-				new_lexem = ft_lstnew(">>");
-				new_lexem->token = TOKEN_OUT_REDIR_APPEND;
-				new_lexem->len = 2;
-				i++;
+				// new_lexem = ft_lstnew(">>");
+				content->str = ">>";
+				content->token = TOKEN_OUT_REDIR_APPEND;
+				content->len = 2;
 			}
 			else
 			{
-				new_lexem = ft_lstnew(">");
-				new_lexem->token = TOKEN_OUT_REDIR;
-				new_lexem->len = 1;
+				// new_lexem = ft_lstnew(">");
+				content->str = ">";
+				content->token = TOKEN_OUT_REDIR;
+				content->len = 1;
 			}
 		}
 		else if (input[i] == '<')
 		{
 			if (input[i + 1] == '<')
 			{
-				new_lexem = ft_lstnew("<<");
-				new_lexem->token = TOKEN_HEREDOC;
-				new_lexem->len = 2;
-				i++;
+				// new_lexem = ft_lstnew("<<");
+				content->str = "<<";
+				content->token = TOKEN_HEREDOC;
+				content->len = 2;
 			}
 			else
 			{
-				new_lexem = ft_lstnew("<");
-				new_lexem->token = TOKEN_IN_REDIR;
-				new_lexem->len = 1;
+				// new_lexem = ft_lstnew("<");
+				content->str = "<";
+				content->token = TOKEN_IN_REDIR;
+				content->len = 1;
 			}
 		}
 		else if (input[i] == '|')
 		{
-			new_lexem = ft_lstnew("|");
-			new_lexem->token = TOKEN_PIPE;
-			new_lexem->len = 1;
+			// new_lexem = ft_lstnew("|");
+			content->str = "|";
+			content->token = TOKEN_PIPE;
+			content->len = 1;
 		}
-		else if (input[i] == '\n')
-		{
-			new_lexem = ft_lstnew("\n");
-			new_lexem->token = TOKEN_NEWLINE;
-			new_lexem->len = 1;
-		}
+		// else if (input[i] == '\n')
+		// {
+		// 	// new_lexem = ft_lstnew("\n");
+		// 	content->str = " ";
+		// 	content->token = TOKEN_NEWLINE;
+		// 	content->len = 1;
+		// }
 		else if (input[i] == '\"')
-			deal_with_quotes(&new_lexem, input, &i, '\"');
+		// deal_with_quotes(&new_lexem, input, &i, '\"');
+		{
+			i += 1;
+			content->len = get_word_len(input, i, '\"');
+			content->token = TOKEN_WORD;
+			content->str = (char *)malloc(sizeof(char) * (content->len + 1));
+			if (content->str == NULL)
+				exit(EXIT_FAILURE);
+			j = 0;
+			while (input[i] != '\"')
+			{
+				content->str[j] = input[i];
+				j++;
+				i++;
+			}
+			content->str[j] = '\0';
+			i -= content->len;
+		}
 		else
 		{
-			new_lexem = ft_lstnew("");
-			word_len = 0;
-			word = (char *)malloc(sizeof(char) * get_word_len(input, i, ' '));
-			if (word == NULL)
+			content->len = get_word_len(input, i, ' ');
+			content->str = (char *)malloc(sizeof(char) * (get_word_len(input, i, ' ') + 1));
+			if (content->str == NULL)
 				exit(EXIT_FAILURE);
+
+			j = 0;
 			while (input[i] != ' ' && input[i] != '\n'
 				&& input[i] != '\0')
 			{
-				word[word_len] = input[i];
-				word_len++;
+				content->str[j] = input[i];
+				j++;
 				i++;
 			}
-			word[word_len] = '\0';
-			new_lexem->content = (void *)ft_strdup(word);
-			free(word);
-			new_lexem->token = TOKEN_WORD;
-			new_lexem->len = word_len;
-			i--;
+			content->str[j] = '\0';
+			content->token = TOKEN_WORD;
+			i -= content->len;
 		}
+		// printf("%s, %p\n", (char *)(*main)->lexems->content, new_lexem->content);
+		new_lexem = ft_lstnew((void *)content);
+		if (new_lexem == NULL)
+			exit(EXIT_FAILURE);
 		ft_lstadd_back(&(*main)->lexems, new_lexem);
+		i += content->len;
 	}
 }
 
@@ -214,12 +242,14 @@ void	make_env_list(t_main **main, char **envp)
 
 void	print_lexems(t_main *main)
 {
-	t_list	*iter;
+	t_list		*iter;
+	t_lexem		*tmp;
 
 	iter = main->lexems;
 	while (iter)
 	{
-		printf("[%s, %u, %d]\n", (char *)iter->content, iter->token, iter->len);
+		tmp = iter->content;
+		printf("[%s, %u, %d]\n", tmp->str, tmp->token, tmp->len);
 		iter = iter->next;
 	}
 }

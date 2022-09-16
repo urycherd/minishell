@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/14 23:39:07 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/16 22:26:55 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,32 @@
 #  define OK 0
 # endif
 
+enum e_tokens
+{
+	TOKEN_SEP,
+	TOKEN_NEWLINE,
+	TOKEN_PIPE,
+	TOKEN_WORD,
+	TOKEN_OUT_REDIR,
+	TOKEN_OUT_REDIR_APPEND,
+	TOKEN_IN_REDIR,
+	TOKEN_HEREDOC,
+	TOKEN_ENV,
+	TOKEN_L_BRACKET,
+	TOKEN_R_BRACKET
+};
+
+typedef struct s_lexem
+{
+	char			*str;
+	enum e_tokens	token;
+	int				len;
+}	t_lexem;
+
 typedef struct s_main
 {
 	t_list	*env;
 	t_list	*lexems;
-	int		d_quotes;
-	int		s_quotes;
 }	t_main;
 
 typedef struct s_info

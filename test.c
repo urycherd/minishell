@@ -2,6 +2,28 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+enum e_tokens
+{
+	TOKEN_SEP,
+	TOKEN_NEWLINE,
+	TOKEN_PIPE,
+	TOKEN_WORD,
+	TOKEN_OUT_REDIR,
+	TOKEN_OUT_REDIR_APPEND,
+	TOKEN_IN_REDIR,
+	TOKEN_HEREDOC,
+	TOKEN_ENV,
+	TOKEN_L_BRACKET,
+	TOKEN_R_BRACKET
+};
+
+typedef struct s_lexem
+{
+	char			*str;
+	enum e_tokens	token;
+	int				len;
+}	t_lexem;
+
 int	main(int argc, char **argv)
 {
 	// int	i;
@@ -12,6 +34,7 @@ int	main(int argc, char **argv)
 
 	char	*str;
 	int		i;
+	t_lexem	lol;
 
 	str = (char *)malloc(sizeof(char) * 10);
 	i = 0;
@@ -22,6 +45,7 @@ int	main(int argc, char **argv)
 	}
 	printf("%s\n", str);
 	printf("%s\n", &str[4]);
+	printf("%d\n", sizeof(lol));
 }
 
 // **************************** TRASH ******************************

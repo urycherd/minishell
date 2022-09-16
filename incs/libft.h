@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 14:27:36 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/14 22:52:24 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/16 22:26:26 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-enum e_tokens
-{
-	TOKEN_SEP,
-	TOKEN_NEWLINE,
-	TOKEN_PIPE,
-	TOKEN_WORD,
-	TOKEN_OUT_REDIR,
-	TOKEN_OUT_REDIR_APPEND,
-	TOKEN_IN_REDIR,
-	TOKEN_HEREDOC,
-	TOKEN_ENV,
-	TOKEN_L_BRACKET,
-	TOKEN_R_BRACKET
-};
-
 typedef struct s_list
 {
 	void			*content;
-	enum e_tokens	token;
-	int				len;
 	struct s_list	*next;
 }					t_list;
 

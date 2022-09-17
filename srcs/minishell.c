@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/16 23:27:37 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/18 00:23:50 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,35 @@ int	get_word_len(char *str, int i, char c)
 // 		exit(EXIT_FAILURE);
 // }
 
+char	*deal_with_dollar(char *input, int *i)
+{
+	char	*after_dollar;
+	int		len;
+	int		j;
+
+	len = get_word_len(input, *i, ' ') + 1;
+	after_dollar = (char *)malloc(sizeof(char) * len);
+	if (after_dollar == NULL)
+		exit(EXIT_FAILURE);
+	*i += 1;
+	j = 0;
+	while (input[*i] && input[*i] != ' '
+		&& input[*i] != '\n' && input[*i] != '$')
+	{
+		after_dollar[j] = input[*i];
+		j++;
+		*i += 1;
+	}
+	after_dollar[j] = '\0';
+	return (ft_strdup(getenv(after_dollar))); 
+}
+
 void	lexer(t_main **main, char *input)
 {
-	int		i;
 	t_list	*new_lexem;
-	int		input_len;
 	t_lexem	*content;
+	int		input_len;
+	int		i;
 	int		j;
 
 	add_history(input);
@@ -122,7 +145,6 @@ void	lexer(t_main **main, char *input)
 			exit(EXIT_FAILURE);
 		if (input[i] == ' ')
 		{
-			// new_lexem = ft_lstnew(" ");
 			content->str = " ";
 			content->token = TOKEN_SEP;
 			content->len = 1;
@@ -131,14 +153,12 @@ void	lexer(t_main **main, char *input)
 		{
 			if (input[i + 1] == '>')
 			{
-				// new_lexem = ft_lstnew(">>");
 				content->str = ">>";
 				content->token = TOKEN_OUT_REDIR_APPEND;
 				content->len = 2;
 			}
 			else
 			{
-				// new_lexem = ft_lstnew(">");
 				content->str = ">";
 				content->token = TOKEN_OUT_REDIR;
 				content->len = 1;
@@ -148,14 +168,12 @@ void	lexer(t_main **main, char *input)
 		{
 			if (input[i + 1] == '<')
 			{
-				// new_lexem = ft_lstnew("<<");
 				content->str = "<<";
 				content->token = TOKEN_HEREDOC;
 				content->len = 2;
 			}
 			else
 			{
-				// new_lexem = ft_lstnew("<");
 				content->str = "<";
 				content->token = TOKEN_IN_REDIR;
 				content->len = 1;
@@ -163,36 +181,42 @@ void	lexer(t_main **main, char *input)
 		}
 		else if (input[i] == '|')
 		{
-			// new_lexem = ft_lstnew("|");
 			content->str = "|";
 			content->token = TOKEN_PIPE;
 			content->len = 1;
 		}
-		// else if (input[i] == '\n')
-		// {
-		// 	// new_lexem = ft_lstnew("\n");
-		// 	content->str = " ";
-		// 	content->token = TOKEN_NEWLINE;
-		// 	content->len = 1;
-		// }
-		else if (input[i] == '\"')
-		// deal_with_quotes(&new_lexem, input, &i, '\"');
+		else if (input[i] == '\n')
 		{
-			i += 1;
-			content->len = get_word_len(input, i, '\"');
+			content->str = " ";
+			content->token = TOKEN_NEWLINE;
+			content->len = 1;
+		}
+		else if (input[i] == '\"')
+		{
+			content->len = get_word_len(input, i + 1, '\"') + 2;
+			if (content->len == 2)
+			{
+				free(content);
+				i += 2;
+				continue ;
+			}
 			content->token = TOKEN_WORD;
 			content->str = (char *)malloc(sizeof(char) * (content->len + 1));
 			if (content->str == NULL)
 				exit(EXIT_FAILURE);
-			j = 0;
-			while (input[i] != '\"')
+			content->str[0] = '\"';
+			j = 1;
+			while (input[i + 1] != '\"')
 			{
-				content->str[j] = input[i];
+				if (input[i + 1] == '$')
+					content->str = deal_with_dollar(input, &i);
+				content->str[j] = input[i + 1];
 				j++;
 				i++;
 			}
-			content->str[j] = '\0';
-			i -= content->len;
+			content->str[j] = '\"';
+			content->str[j + 1] = '\0';
+			i -= content->len - 2;
 		}
 		else
 		{
@@ -200,7 +224,6 @@ void	lexer(t_main **main, char *input)
 			content->str = (char *)malloc(sizeof(char) * (get_word_len(input, i, ' ') + 1));
 			if (content->str == NULL)
 				exit(EXIT_FAILURE);
-
 			j = 0;
 			while (input[i] != ' ' && input[i] != '\n'
 				&& input[i] != '\0')
@@ -213,7 +236,6 @@ void	lexer(t_main **main, char *input)
 			content->token = TOKEN_WORD;
 			i -= content->len;
 		}
-		// printf("%s, %p\n", (char *)(*main)->lexems->content, new_lexem->content);
 		new_lexem = ft_lstnew((void *)content);
 		if (new_lexem == NULL)
 			exit(EXIT_FAILURE);
@@ -240,18 +262,21 @@ void	make_env_list(t_main **main, char **envp)
 	}
 }
 
-void	print_lexems(t_main *main)
+void	print_lexems(t_main **main)
 {
 	t_list		*iter;
 	t_lexem		*tmp;
 
-	iter = main->lexems;
+	iter = (*main)->lexems;
+	printf("\n**************\n");
+	printf("{tok, len, str}\n");
 	while (iter)
 	{
 		tmp = iter->content;
-		printf("[%s, %u, %d]\n", tmp->str, tmp->token, tmp->len);
+		printf("[%u, %d, %s]\n", tmp->token, tmp->len, tmp->str);
 		iter = iter->next;
 	}
+	printf("**************\n\n");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -281,12 +306,14 @@ int	main(int argc, char **argv, char **envp)
 		if (input == NULL)
 		{
 			ft_putstr_fd("exit\n", 2);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		// 2.lexer part
 		else if (input && *input)
+		{
 			lexer(&main, input);
-		print_lexems(main);
+			print_lexems(&main);
+		}
 		// 3.parser part
 		free(input);
 	}

@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/16 20:14:12 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/13 23:17:33 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/17 23:08:55 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strdup(const char *s1)
 	char	*start;
 	size_t	len;
 
+	if (s1 == NULL)
+		return (NULL);
 	len = ft_strlen(s1);
 	res = (char *)malloc(sizeof(char) * (len + 1));
 	if (res == NULL)

@@ -35,7 +35,10 @@ int	main(int argc, char **argv)
 	char	*str;
 	int		i;
 	t_lexem	lol;
+	char	*env;
 
+	env = getenv("PATH");
+	printf("%s\n", env);
 	str = (char *)malloc(sizeof(char) * 10);
 	i = 0;
 	while (i < 10)

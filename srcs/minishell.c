@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/18 00:23:50 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/19 19:16:55 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,59 @@ int	g_status = OK;
 // {
 // 	if (ft_strncmp((char *)(*elem)->content, "" )
 // }
+
+char	*ft_realloc(ptr, newSize)
+    // char 	 *ptr;		
+				/* Ptr to currently allocated block.  If
+				 * it's 0, then this procedure behaves
+				 * identically to malloc. */
+    // unsigned int newSize;	/* Size of block after it is extended */
+{
+    unsigned int curSize;
+    char *newPtr;
+
+    if (ptr == 0)
+	{
+		return malloc(newSize);
+    }
+    curSize = Mem_Size(ptr);
+    if (newSize <= curSize)
+	{
+		return ptr;
+    }
+    newPtr = malloc(newSize);
+    ft_memcpy(ptr, newPtr, (size_t)curSize);
+    free(ptr);
+    return(newPtr);
+}
+
+char	*ft_strjoin_mod(char *s1, char *s2)
+{
+	size_t	len1;
+	size_t	len2;
+	char	*res;
+	size_t	i;
+
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	res = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (res == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len1)
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	while (i - len1 < len2)
+	{
+		res[i] = s2 [i - len1];
+		i++;
+	}
+	res[i] = '\0';
+	free(s1);
+	return (res);
+}
 
 t_list	*make_list(char **words)
 {
@@ -130,6 +183,7 @@ void	lexer(t_main **main, char *input)
 {
 	t_list	*new_lexem;
 	t_lexem	*content;
+	char	*dollar;
 	int		input_len;
 	int		i;
 	int		j;
@@ -193,8 +247,8 @@ void	lexer(t_main **main, char *input)
 		}
 		else if (input[i] == '\"')
 		{
-			content->len = get_word_len(input, i + 1, '\"') + 2;
-			if (content->len == 2)
+			content->len = get_word_len(input, i + 1, '\"');
+			if (content->len == 0)
 			{
 				free(content);
 				i += 2;
@@ -204,21 +258,27 @@ void	lexer(t_main **main, char *input)
 			content->str = (char *)malloc(sizeof(char) * (content->len + 1));
 			if (content->str == NULL)
 				exit(EXIT_FAILURE);
-			content->str[0] = '\"';
-			j = 1;
+			// content->str[0] = '\"';
+			j = 0;
 			while (input[i + 1] != '\"')
 			{
 				if (input[i + 1] == '$')
-					content->str = deal_with_dollar(input, &i);
+				{
+					dollar = deal_with_dollar(input, &i);
+					content->str[j] = '\0';
+					content->str = ft_strjoin_mod(content->str, dollar);
+					printf("%s\n", content->str);
+				}
+				// printf("%s\n", content->str);
 				content->str[j] = input[i + 1];
 				j++;
 				i++;
 			}
-			content->str[j] = '\"';
-			content->str[j + 1] = '\0';
+			// content->str[j] = '\"';
+			content->str[j] = '\0';
 			i -= content->len - 2;
 		}
-		else
+		else if (input[i])
 		{
 			content->len = get_word_len(input, i, ' ');
 			content->str = (char *)malloc(sizeof(char) * (get_word_len(input, i, ' ') + 1));

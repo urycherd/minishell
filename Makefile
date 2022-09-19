@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/17 21:09:03 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/19 15:59:01 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ LIBC			=	ar rc
 LIBR			=	ranlib
 
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g
 RFLAGS			=	-lreadline\
 					-L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib\
 					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include\

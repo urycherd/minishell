@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/19 19:16:55 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/20 21:24:21 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,30 @@ int	g_status = OK;
 // 	if (ft_strncmp((char *)(*elem)->content, "" )
 // }
 
-char	*ft_realloc(ptr, newSize)
-    // char 	 *ptr;		
-				/* Ptr to currently allocated block.  If
-				 * it's 0, then this procedure behaves
-				 * identically to malloc. */
-    // unsigned int newSize;	/* Size of block after it is extended */
-{
-    unsigned int curSize;
-    char *newPtr;
+// char	*ft_realloc(ptr, newSize)
+//     // char 	 *ptr;		
+// 				/* Ptr to currently allocated block.  If
+// 				 * it's 0, then this procedure behaves
+// 				 * identically to malloc. */
+//     // unsigned int newSize;	/* Size of block after it is extended */
+// {
+//     unsigned int curSize;
+//     char *newPtr;
 
-    if (ptr == 0)
-	{
-		return malloc(newSize);
-    }
-    curSize = Mem_Size(ptr);
-    if (newSize <= curSize)
-	{
-		return ptr;
-    }
-    newPtr = malloc(newSize);
-    ft_memcpy(ptr, newPtr, (size_t)curSize);
-    free(ptr);
-    return(newPtr);
-}
+//     if (ptr == 0)
+// 	{
+// 		return (malloc(newSize));
+//     }
+//     curSize = Mem_Size(ptr);
+//     if (newSize <= curSize)
+// 	{
+// 		return (ptr);
+//     }
+//     newPtr = malloc(newSize);
+//     ft_memcpy(ptr, newPtr, (size_t)curSize);
+//     free(ptr);
+//     return (newPtr);
+// }
 
 char	*ft_strjoin_mod(char *s1, char *s2)
 {
@@ -69,6 +69,7 @@ char	*ft_strjoin_mod(char *s1, char *s2)
 	}
 	res[i] = '\0';
 	free(s1);
+	printf("%s\n", res);
 	return (res);
 }
 
@@ -87,7 +88,7 @@ t_list	*make_list(char **words)
 		elem = ft_lstnew((void *)words[i]);
 		if (elem == NULL)
 			exit(1);
-		// assign_token(&elem);
+		// assign_token(&elem);	
 		ft_lstadd_back(&head, elem);
 	}
 	return (head);
@@ -169,7 +170,8 @@ char	*deal_with_dollar(char *input, int *i)
 	*i += 1;
 	j = 0;
 	while (input[*i] && input[*i] != ' '
-		&& input[*i] != '\n' && input[*i] != '$')
+		&& input[*i] != '\n' && input[*i] != '$'
+		&& input[*i] != '\"' && input[*i] != '\'')
 	{
 		after_dollar[j] = input[*i];
 		j++;
@@ -260,17 +262,17 @@ void	lexer(t_main **main, char *input)
 				exit(EXIT_FAILURE);
 			// content->str[0] = '\"';
 			j = 0;
-			while (input[i + 1] != '\"')
+			i++;
+			while (input[i] && input[i] != '\"')
 			{
-				if (input[i + 1] == '$')
+				if (input[i] == '$')
 				{
 					dollar = deal_with_dollar(input, &i);
 					content->str[j] = '\0';
 					content->str = ft_strjoin_mod(content->str, dollar);
-					printf("%s\n", content->str);
 				}
 				// printf("%s\n", content->str);
-				content->str[j] = input[i + 1];
+				content->str[j] = input[i];
 				j++;
 				i++;
 			}

@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/19 15:59:01 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/21 19:50:03 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ NAME			=	minishell
 SRCSDIR			=	./srcs
 OBJSDIR			=	./objs
 
-SRCS			=	minishell.c	signals.c
+SRCS			=	minishell.c	signals.c	lexer.c\
+					utils.c
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 
 LIBFT			=	./libft/libft.a

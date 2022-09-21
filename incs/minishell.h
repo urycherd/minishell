@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/16 22:26:55 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/21 19:49:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ enum e_tokens
 	TOKEN_NEWLINE,
 	TOKEN_PIPE,
 	TOKEN_WORD,
+	TOKEN_DQUOTE,
 	TOKEN_OUT_REDIR,
 	TOKEN_OUT_REDIR_APPEND,
 	TOKEN_IN_REDIR,
@@ -66,10 +67,17 @@ typedef struct s_info
 	// int				status;
 }	t_info;
 
-void	deal_with_signals(void);
 int		ft_echo(char **args);
 int		ft_env(t_list *env);
 int		ft_pwd(void);
 int		ft_echo(char **args);
+
+void	deal_with_signals(void);
+
+void	lexer(t_main **main, char *input);
+
+int		change_to_spaces_and_check_quotes(char **str);
+int		get_word_len(char *str, int i, char c);
+void	make_env_list(t_main **main, char **envp);
 
 #endif

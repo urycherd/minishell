@@ -95,3 +95,23 @@ int	main(int argc, char **argv)
 // 		words++;
 // 	}
 // }
+
+// t_list	*make_list(char **words)
+// {
+// 	t_list	*head;
+// 	t_list	*elem;
+// 	int		i;
+// 	head = ft_lstnew((void *)words[0]);
+// 	if (head == NULL)
+// 		exit(1);
+// 	i = 0;
+// 	while (words[++i])
+// 	{
+// 		elem = ft_lstnew((void *)words[i]);
+// 		if (elem == NULL)
+// 			exit(1);
+// 		// assign_token(&elem);	
+// 		ft_lstadd_back(&head, elem);
+// 	}
+// 	return (head);
+// }

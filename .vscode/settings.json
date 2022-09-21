@@ -2,6 +2,7 @@
 	"files.associations": {
 		"stdio.h": "c",
 		"unistd.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"sstream": "c"
 	}
 }

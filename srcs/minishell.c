@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/22 15:50:33 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/22 19:49:36 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	print_lexems(t_main **main)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
-	t_info	info;
 	t_main	*main;
 
 	(void)argv;
@@ -93,9 +92,8 @@ int	main(int argc, char **argv, char **envp)
 	if (main == NULL)
 		return (EXIT_FAILURE);
 	make_env_list(&main, envp);
-	// нужно проиницилизировать частично исходную структуру тут
-	info.exit_f = 1;
-	while (info.exit_f == 1)
+	main->exit_f = 0;
+	while (main->exit_f == 0)
 	{
 		// rl_outstream = stderr;
 		// 1.readline part

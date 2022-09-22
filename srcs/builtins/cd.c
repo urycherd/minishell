@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/22 12:59:03 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:36:22 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,16 @@ static int	ft_change_env(char *name, char *path, t_list *env)
 	return (0);
 }
 
-static int	go_to(t_list *env, char *name)
+static int	go_to(t_main *main, char *name)
 {
 	char	cwd[MAX_PATH];
 	char	*old_path;
 	char	*new_path;
 	char	*path;
 	int		result;
+	t_list 	*env;
 
+	env = main->env;
 	// определяем по какому пути пойдем
 	path = getenv(name);
 	// сохраняем текущую, тк она становится старой

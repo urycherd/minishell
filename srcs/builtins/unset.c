@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:11 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/22 17:49:39 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:36:27 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ static size_t	env_size(char *env)
 
 static int	node_switch(char **env)
 {
-	s_list	tmp;
+	t_list	tmp;
 
 	tmp = (*env)->next->next;
 	ft_lstdelone((*env)->next, free);
 	(*env)->next = tmp;
 }
 
-int	ft_unset(char **args, s_main *main)
+int	ft_unset(char **args, t_main *main)
 {
-	s_list	env;
+	t_list	*env;
 
 	env = main->env;
 	if (!args[1])

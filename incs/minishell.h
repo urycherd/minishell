@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/22 17:16:49 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:33:20 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_main
 {
 	t_list	*env;
 	t_list	*lexems;
+	char	exit_f;
+	int		ret;
 }	t_main;
 
 typedef struct s_info

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/13 16:22:03 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/22 12:59:03 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	go_to(t_list *env, char *name)
 	char	*old_path;
 	char	*new_path;
 	char	*path;
-	int		 result;
+	int		result;
 
 	// определяем по какому пути пойдем
 	path = getenv(name);

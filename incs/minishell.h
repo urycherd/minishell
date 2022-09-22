@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/21 19:49:14 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:16:49 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct s_info
 {
 	// t_builtin_ptr	builthes[7];
 	// char			builtin_names[7];
-	// char			**envp;
+	t_list			*env;
 	// t_list			envpp_list;
 	// char			envp_f;
 	char			exit_f;

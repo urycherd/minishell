@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/21 19:50:03 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/25 18:31:36 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCSDIR			=	./srcs
 OBJSDIR			=	./objs
 
 SRCS			=	minishell.c	signals.c	lexer.c\
-					utils.c
+					utils.c		builtins/pwd.c
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 
 LIBFT			=	./libft/libft.a
@@ -37,13 +37,17 @@ RM				=	rm -rf
 
 all: $(LIBFT) ${NAME} 
 
-$(OBJSDIR)/%.o: $(SRCSDIR)/%.c ${HEADER} ${MAKE} 
+$(OBJSDIR):
+	mkdir -p $(OBJSDIR)
+	mkdir -p $(addprefix $(OBJSDIR)/,builtins)
+
+$(OBJSDIR)/%.o: $(SRCSDIR)/%.c ${HEADER} ${MAKE}
 	${CC} ${CFLAGS} -c $< -o $@ 
 
 $(LIBFT):
 	@cd libft && make bonus
 
-${NAME}: $(OBJS) $(OBJSDIR)
+${NAME}: $(OBJSDIR) $(OBJS)
 	$(CC) ${CFLAGS} $(RFLAGS) $(LIBFT) -o $(NAME) $(OBJS)
 
 # ${NAME}: $(OBJS) $(OBJSDIR)
@@ -51,6 +55,7 @@ ${NAME}: $(OBJS) $(OBJSDIR)
 
 clean:
 	${RM} ${OBJS}
+	${RM} ${OBJSDIR}
 	@cd libft && make clean
 
 fclean: clean

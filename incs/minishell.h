@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/25 17:47:56 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:54:00 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ enum e_tokens
 	TOKEN_OUT_REDIR_APPEND,
 	TOKEN_IN_REDIR,
 	TOKEN_HEREDOC,
-	TOKEN_ENV,
-	TOKEN_L_BRACKET,
-	TOKEN_R_BRACKET
+	// TOKEN_ENV,
+	// TOKEN_L_BRACKET,
+	// TOKEN_R_BRACKET
 };
 
 typedef struct s_lexem
@@ -52,7 +52,7 @@ typedef struct s_lexem
 
 typedef struct s_command
 {
-	char	*cmd;
+	// char	*cmd;
 	char	**args;
 	int		file_open;
 	int		file_close;
@@ -90,5 +90,8 @@ void	lexer(t_main **main, char *input);
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c);
 void	make_env_list(t_main **main, char **envp);
+
+int		ft_env(t_list *env);
+int		ft_pwd(void);
 
 #endif

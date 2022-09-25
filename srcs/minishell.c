@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/25 17:44:21 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:11:37 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ int	main(int argc, char **argv, char **envp)
 		// 3.parser part
 		free(input);
 		// parser(&main);
+		
+		ft_pwd();
 
 		// 4.executor part
 		// if no pipes

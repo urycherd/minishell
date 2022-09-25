@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/25 15:17:25 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 17:58:34 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ft_env(t_list *env)
 			env = env->next;
 		}
 		ft_putstr_fd(env->content, 1);
+		write(1, "\n", 1);
 	}
 	return (0);
 }

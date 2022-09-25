@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/23 20:06:13 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 17:44:21 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,35 @@
 // 	}
 // 	after_dollar[j] = '\0';
 // 	return (ft_strdup(getenv(after_dollar))); 
+// }
+
+// void	parse_dollars(t_main **main)
+// {
+// 	t_list	*iter_lexem;
+	
+// 	iter_lexem = (*main)->lexems;
+// 	while (iter_lexem)
+// 	{
+		
+// 	}
+// }
+
+// void	parser(t_main **main)
+// {
+// 	t_list		*new_command;
+// 	t_list		*iter_lexem;
+// 	t_command	*content;
+// 	int			i;
+
+// 	parse_dollars(main);
+// 	(*main)->commands = NULL;
+// 	iter_lexem = (*main)->lexems;
+// 	// printf("%s\n", ((t_lexem *)(iter_lexem->content))->str);
+// 	while (iter_lexem)
+// 	{
+// 		if ((t_lexem *)(iter_lexem->content))->token == TOKEN_DQUOTE)
+			
+// 	}
 // }
 
 void	print_lexems(t_main **main)
@@ -111,6 +140,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		// 3.parser part
 		free(input);
+		// parser(&main);
 
 		// 4.executor part
 		// if no pipes

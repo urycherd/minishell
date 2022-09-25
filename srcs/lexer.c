@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:42:06 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/21 19:53:55 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:55:21 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,8 @@ static void	deal_with_word(char *input, int *i, t_lexem **content)
 	while (input[*i] != ' ' && input[*i] != '\n'
 		&& input[*i] != '\0')
 	{
+		// if (input[*i] == '\"' || input[*i] == '\'')
+		// 	deal_with_quotes(input, i, content);
 		(*content)->str[j] = input[*i];
 		j++;
 		*i += 1;

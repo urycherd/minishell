@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/25 18:11:37 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:50:49 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,23 +70,86 @@
 // 	}
 // }
 
-// void	parser(t_main **main)
-// {
-// 	t_list		*new_command;
-// 	t_list		*iter_lexem;
-// 	t_command	*content;
-// 	int			i;
+int	get_num_of_args(t_list *lexem)
+{
+	int	i;
+	t_list	*iter;
 
-// 	parse_dollars(main);
-// 	(*main)->commands = NULL;
-// 	iter_lexem = (*main)->lexems;
-// 	// printf("%s\n", ((t_lexem *)(iter_lexem->content))->str);
-// 	while (iter_lexem)
-// 	{
-// 		if ((t_lexem *)(iter_lexem->content))->token == TOKEN_DQUOTE)
-			
-// 	}
-// }
+	i = 0;
+	iter = lexem;
+	while (iter)
+	{
+		if ((((t_lexem *)(iter)->content))->token == TOKEN_DQUOTE
+			|| ((t_lexem *)(iter->content))->token == TOKEN_WORD)
+			i++;
+		else if (((t_lexem *)(iter->content))->token == TOKEN_PIPE)
+			break ;
+		iter = iter->next;
+	}
+	return (i);
+}
+
+void	fill_cmd_content(int size, t_command *content, t_list **iter_lexem)
+{
+	int	i;
+	
+	content->args = (char **)malloc(sizeof(char *) * (size + 1));
+	if (content->args == NULL)
+		exit(EXIT_FAILURE);
+	i = -1;
+	while (++i < size && *iter_lexem)
+	{
+		// // printf("%p\n", ((t_lexem *)((*iter_lexem)->content))->str);
+		// if (((t_lexem *)((*iter_lexem)->content))->token == TOKEN_PIPE)
+		// 	break ;
+		// printf("biba\n");
+		while (((t_lexem *)((*iter_lexem)->content))->token == TOKEN_SEP) // это ерунда, тут нужно умнее сделать
+		{
+			// printf("%d\n", i);
+			(*iter_lexem) = (*iter_lexem)->next;
+		}
+		(content->args)[i] = ft_strdup(((t_lexem *)((*iter_lexem)->content))->str);
+		*iter_lexem = (*iter_lexem)->next;
+	}
+	(content->args)[i] = NULL;
+	// printf("Exit\n");
+}
+
+void	parser(t_main **main)
+{
+	t_list		*new_command;
+	t_list		*iter_lexem;
+	t_command	*content;
+	int			size;
+
+	// parse_dollars(main);
+	(*main)->commands = NULL;
+	iter_lexem = (*main)->lexems;
+	// printf("%s\n", ((t_lexem *)(iter_lexem->content))->str);
+	while (iter_lexem)
+	{
+		if (((t_lexem *)(iter_lexem->content))->token == TOKEN_SEP
+			|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_NEWLINE
+			|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_PIPE)
+			iter_lexem = iter_lexem->next;
+		// else if (((t_lexem *)(iter_lexem->content))->token == TOKEN_WORD
+		// 	|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_DQUOTE)
+		else
+		{
+			content = (t_command *)malloc(sizeof(t_command));
+			if (content == NULL)
+				exit(EXIT_FAILURE);
+			size = get_num_of_args(iter_lexem);
+			// printf("size=%d\n", size);
+			fill_cmd_content(size, content, &iter_lexem);
+			new_command = ft_lstnew(content);
+			ft_lstadd_back(&(*main)->commands, new_command);
+			// printf("debug %s\n", ((t_lexem *)(iter_lexem->content))->str);
+			// iter_lexem = iter_lexem->next;
+			// printf("debug %s\n", ((t_lexem *)(iter_lexem->content))->str);
+		}
+	}
+}
 
 void	print_lexems(t_main **main)
 {
@@ -101,6 +164,33 @@ void	print_lexems(t_main **main)
 		tmp = iter->content;
 		printf("[%u, %d, %s]\n", tmp->token, tmp->len, tmp->str);
 		iter = iter->next;
+	}
+	printf("**************\n\n");
+}
+
+void	print_parsed(t_main **main)
+{
+	t_list		*iter;
+	t_command	*cmd;
+	int			i;
+	int			j;
+
+	printf("\n**************\n");
+	iter = (*main)->commands;
+	j = 1;
+	while (iter)
+	{
+		printf("Group number %d:\n", j);
+		cmd = iter->content;
+		i = 0;
+		while (cmd->args[i])
+		{
+			printf("%s ", (cmd->args)[i]);
+			i++;
+		}
+		iter = iter->next;
+		j++;
+		printf("\n");
 	}
 	printf("**************\n\n");
 }
@@ -140,10 +230,9 @@ int	main(int argc, char **argv, char **envp)
 		}
 		// 3.parser part
 		free(input);
-		// parser(&main);
+		parser(&main);
+		print_parsed(&main);
 		
-		ft_pwd();
-
 		// 4.executor part
 		// if no pipes
 		// 	if builtin

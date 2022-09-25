@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/25 18:12:12 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/25 22:54:00 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ enum e_tokens
 	TOKEN_OUT_REDIR_APPEND,
 	TOKEN_IN_REDIR,
 	TOKEN_HEREDOC,
-	TOKEN_ENV,
-	TOKEN_L_BRACKET,
-	TOKEN_R_BRACKET
+	// TOKEN_ENV,
+	// TOKEN_L_BRACKET,
+	// TOKEN_R_BRACKET
 };
 
 typedef struct s_lexem

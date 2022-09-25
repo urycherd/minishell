@@ -6,11 +6,11 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:11 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/22 18:36:27 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:11:43 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../incs/minishell.h"
 
 static size_t	env_size(char *env)
 {

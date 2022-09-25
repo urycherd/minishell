@@ -6,11 +6,11 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:13 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/08 12:56:36 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:12:00 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../incs/minishell.h"
 
 int	ft_echo(char **args)
 {

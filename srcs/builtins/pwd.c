@@ -6,11 +6,11 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/09 17:04:17 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 14:11:50 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../incs/minishell.h" 
 
 int	ft_pwd(void) // перед вызовом надо проверять, что аргументов нет
 {

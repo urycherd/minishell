@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:28 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/25 17:33:47 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 18:08:47 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static int	sort_env(t_list *env)
 	return (0);
 }
 
-int	ft_export(t_main *main, char *arg)
+int	ft_export(t_main *main, char **arg)
 {
 	int	i;
 

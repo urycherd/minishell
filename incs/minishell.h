@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/25 14:13:41 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/25 17:47:56 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,20 @@ typedef struct s_lexem
 	int				len;
 }	t_lexem;
 
+typedef struct s_command
+{
+	char	*cmd;
+	char	**args;
+	int		file_open;
+	int		file_close;
+}	t_command;
+
 typedef struct s_main
 {
 	t_list	*env;
 	t_list	*lexems;
-	char	exit_f;
+	t_list	*commands;
+	int		exit_f;
 	int		ret;
 }	t_main;
 
@@ -65,7 +74,7 @@ typedef struct s_info
 	t_list			*env;
 	// t_list			envpp_list;
 	// char			envp_f;
-	char			exit_f;
+	// char			exit_f;
 	// int				status;
 }	t_info;
 

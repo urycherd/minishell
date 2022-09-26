@@ -6,7 +6,7 @@
 #    By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/12 13:38:47 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/23 19:29:05 by urycherd         ###   ########.fr        #
+#    Updated: 2022/09/26 14:56:24 by urycherd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ CFLAGS	= -Wall -Wextra -Werror
 RM		= rm -f
 
 %.o : %.c
-	${CC} ${CFLAGS} -c $< -o $@ 
+	@ ${CC} ${CFLAGS} -c $< -o $@ 
 
 all: ${NAME}
 

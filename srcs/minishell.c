@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/25 22:50:49 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:17:13 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		parser(&main);
 		print_parsed(&main);
-		
+		// ft_export(main, ((t_command *)(main->commands->content)->args);
 		// 4.executor part
 		// if no pipes
 		// 	if builtin

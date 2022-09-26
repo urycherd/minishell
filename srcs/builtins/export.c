@@ -6,31 +6,13 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:28 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/25 18:08:47 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:46:28 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-char	**ft_detect_key(char *str)
-{
-	char	*key;
-	int		i;
-
-	i = 0;
-	while (str[i] != '=')
-		++i;
-	key = (char *)malloc(sizeof(char) * (i + 1));
-	if (key == NULL)
-		return (NULL);
-	i = 0;
-	while (str[i] != '=')
-		key = str[i++];
-	key[i] = '\0';
-	return (key);
-}
-
-void	print_dar(char **massive)
+void	print_export(char **massive)
 {
 	int		y;
 	char	*key;
@@ -38,14 +20,13 @@ void	print_dar(char **massive)
 	y = 0;
 	while (massive[y])
 	{
-
 		ft_putstr_fd("declare -x ", 1);
 		key = ft_detect_key(massive[y]);
 		if (key)
 		{
-			ft_putstr_fd(detect_key(massive[y]), 1);
+			ft_putstr_fd(key, 1);
 			write(1, "=\"", 2);
-			ft_putstr_fd((massive[y] + ft_strlen(key)), 1);
+			ft_putstr_fd((massive[y] + ft_strlen(key)), 1); // not sure 100% of + strlen
 			write(1, "\"\n", 2);
 			y++;
 			free(key);
@@ -53,51 +34,59 @@ void	print_dar(char **massive)
 	}
 }
 
-char	**lst_to_dar(t_list *env)
+void	buble_sort(char **arr_str, int size) // потестить сортировку и проверить, что правильно с указателями работаю
 {
-	char	**dar;
-	int		i;
-	int		size;
-
-	i = 0;
-	size = ft_lstsize(env);
-	dar = (char **)malloc(sizeof(char *) * size);
-	while (env->next)
-	{
-		dar[i++] = env->content;
-		env = env->next;
-	}
-	dar[i] = env->content;
-	return (dar);
-}
-
-static int	sort_env(t_list *env)
-{
-	char	**exp;
 	char	*tmp;
-	int		size;
 	int		i;
 	int		j;
 
 	i = 0;
-	size = ft_lstsize(env);
-	exp = lst_to_dar(env);
 	while (i < size)
 	{
 		j = 0;
 		while (j < size)
 		{
-			if (ft_strcmp(exp[j], exp[j + 1]) < 0)
+			if (ft_strcmp(arr_str[j], arr_str[j + 1]) < 0)
 			{
-				tmp = exp[j + 1];
-				exp[j + 1] = exp[j];
-				exp[j++] = tmp;
+				tmp = arr_str[j + 1];
+				arr_str[j + 1] = arr_str[j];
+				arr_str[j++] = tmp;
 			}
 		}
 		i++;
 	}
-	print_dar(exp);
-	// free(exp);
+}
+
+char	**lst_to_arr_str(t_list *env)
+{
+	char	**arr_str;
+	int		i;
+	int		size;
+
+	i = 0;
+	size = ft_lstsize(env);
+	arr_str = (char **)malloc(sizeof(char *) * size);
+	while (env->next)
+	{
+		arr_str[i++] = env->content;
+		env = env->next;
+	}
+	arr_str[i] = env->content;
+	buble_sort(arr_str, size);
+	return (arr_str);
+}
+
+static int	sort_env(t_list *env)
+{
+	int		i;
+	char	**exp;
+
+	i = 0;
+	exp = lst_to_arr_str(env);
+	print_export(exp);
+	while (exp[i])
+		free(exp[i++]);
+	free(exp);
 	return (0);
 }
 
@@ -110,9 +99,9 @@ int	ft_export(t_main *main, char **arg)
 		return (sort_env(main->env));
 	else
 	{
-		while (arg[i])
-			if (arg_ex() == 1)
-				return (1);
+		// while (arg[i])
+		// 	if (arg_ex() == 1)
+		// 		return (1);
 		return (0);
 	}
 }

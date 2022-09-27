@@ -6,13 +6,13 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:11 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/25 14:11:43 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:30:08 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-static size_t	env_size(char *env)
+static size_t	key_size(char *env)
 {
 	size_t		i;
 
@@ -38,7 +38,7 @@ int	ft_unset(char **args, t_main *main)
 	env = main->env;
 	if (!args[1])
 		return (0);
-	if (ft_strncmp(args[1], env->content, env_size(env->content)) == 0)
+	if (ft_strncmp(args[1], env->content, key_size(env->content)) == 0)
 	{
 		if (env->next)
 			main->env = env->next;
@@ -48,7 +48,7 @@ int	ft_unset(char **args, t_main *main)
 	while (env && env->next)
 	{
 		if (ft_strncmp(args[1], env->next->content, \
-		env_size(env->next->content)) == 0)
+		key_size(env->next->content)) == 0)
 		{
 			node_switch(*env);
 			return (0);

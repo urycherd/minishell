@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/26 16:07:13 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:19:33 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ void	make_env_list(t_main **main, char **envp);
 
 int		ft_env(t_list *env);
 int		ft_pwd(void);
-int		ft_export(t_main *main, char **arg);
+int		ft_export(t_main **main, char **arg);
 
 
 //sup functions for builtin
 char	*ft_detect_key(char *str);
+int		arg_export(t_list *env, char *arg);
 
 #endif

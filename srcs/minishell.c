@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/28 18:42:42 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/28 18:51:26 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
 			main->ret = ft_pwd();
 		
+		printf("%d\n", ft_export(&main, ((t_command *)(main->commands->content))->args));
 		// 4.executor part
 		// if no pipes
 		// 	if builtin

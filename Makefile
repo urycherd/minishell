@@ -6,7 +6,7 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/25 23:16:17 by qsergean         ###   ########.fr        #
+#    Updated: 2022/09/28 18:57:40 by qsergean         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCSDIR			=	./srcs
 OBJSDIR			=	./objs
 
 SRCS			=	minishell.c	signals.c	lexer.c\
-					utils.c		builtins/pwd.c
+					utils.c		builtins/export.c builtins/env.c
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 
 LIBFT			=	./libft/libft.a
@@ -48,7 +48,7 @@ $(LIBFT):
 	@cd libft && make bonus
 
 ${NAME}: $(OBJSDIR) $(OBJS)
-	$(CC) ${CFLAGS} $(RFLAGS) $(LIBFT) -o $(NAME) $(OBJS)
+	@ $(CC) ${CFLAGS} $(RFLAGS) $(LIBFT) -o $(NAME) $(OBJS)
 
 # ${NAME}: $(OBJS) $(OBJSDIR)
 # 	$(CC) ${CFLAGS} $(OBJS) $(RFLAGS) $(LIBFT) -o $(NAME)

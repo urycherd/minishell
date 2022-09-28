@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:18:23 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/28 18:54:58 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/28 21:39:23 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_iscii_arr(char *str)
 
 	i = 0;
 	while (str[++i])
-		if (ft_isascii(str[i]))
+		if (!ft_isascii(str[i]))
 			return (1);
 	return (0);
 }
@@ -58,20 +58,18 @@ int	key_val_checker(char *key)
 	return (0);
 }
 
-static int	arg_val_checker(t_list *env, char *arg)
+static int	arg_val_checker(char *arg)
 {
 	char	*key;
-	int		size;
 	int		flag;
 
 	flag = 0;
-	size = ft_lstsize(env);
 	if (arg[0] != '_' && !ft_isalpha(arg[0]))
 		return (1); //print_error "arg" not a valid identifier
 	if (ft_iscii_arr(arg))
 		return (1); //print_error "arg" not a valid identifier
 	if (!(ft_strchr(arg, '=')))
-		return (1);
+		return (0);
 	key = ft_detect_key(arg);
 	if (*key)
 		if (key_val_checker(key))
@@ -80,20 +78,26 @@ static int	arg_val_checker(t_list *env, char *arg)
 	return (flag);
 }
 
-int	arg_export(t_list *env, char *arg)
+int	arg_export(t_main *main, char *arg)
 {
 	int		i;
-	char	*key;
 	int		size;
+	char	*key;
 
 	i = 0;
-	size = ft_lstsize(env);
+	size = ft_lstsize(main->env);
 	if (arg_val_checker(arg))
 		return (1);
-	while (env->next)
-	
-
-	//если ключ существует в env - перезаписываем значение
-	//иначе добавляем в начало списка
+	key = ft_detect_key(arg);
+	while (main->env->next)
+	{
+		if (ft_strncmp(main->env->content, key, ft_strlen(key)) == 0)
+		{
+			main->env->content = arg;
+			return (0);
+		}
+		main->env = main->env->next;
+	}
+	ft_lstadd_front(&main->env, ft_lstnew(arg));
 	return (0);
 }

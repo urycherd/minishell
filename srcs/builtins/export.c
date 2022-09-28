@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:28 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/27 17:20:29 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/28 21:02:58 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,6 @@ static char	**lst_to_arr_str(t_list *env, int size)
 		env = env->next;
 	}
 	arr_str[i] = env->content;
-	ft_putnbr_fd(i, 1);
-	write(1, "\n", 1);
-	ft_putnbr_fd(size, 1);
-	write(1, "\n", 1);
 	buble_sort(arr_str, size);
 	return (arr_str);
 }
@@ -103,7 +99,7 @@ int	ft_export(t_main **main, char **arg)
 	else
 	{
 		while (arg[++i])
-			if (arg_export((*main)->env, arg[i]) != 0)
+			if (arg_export(*main, arg[i]) != 0)
 				return (1);
 		return (0);
 	}

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:18:23 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/28 21:39:23 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/28 21:54:13 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,22 @@ int	arg_export(t_main *main, char *arg)
 	int		i;
 	int		size;
 	char	*key;
+	t_list	*tmp;
 
 	i = 0;
-	size = ft_lstsize(main->env);
+	tmp = main->env;
+	size = ft_lstsize(tmp);
 	if (arg_val_checker(arg))
 		return (1);
 	key = ft_detect_key(arg);
-	while (main->env->next)
+	while (tmp->next)
 	{
-		if (ft_strncmp(main->env->content, key, ft_strlen(key)) == 0)
+		if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
 		{
-			main->env->content = arg;
+			tmp->content = arg;
 			return (0);
 		}
-		main->env = main->env->next;
+		tmp = tmp->next;
 	}
 	ft_lstadd_front(&main->env, ft_lstnew(arg));
 	return (0);

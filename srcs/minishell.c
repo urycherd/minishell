@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/28 21:01:35 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/28 21:44:20 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,8 +234,10 @@ int	main(int argc, char **argv, char **envp)
 		print_parsed(&main);
 		if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "env"))
 			ft_env(main->env);
-		else
-			printf("%d\n", ft_export(&main, ((t_command *)(main->commands->content))->args));
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "export"))
+			ft_export(&main, ((t_command *)(main->commands->content))->args);
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "echo"))
+			ft_echo(((t_command *)(main->commands->content))->args);
 		// 4.executor part
 		// if no pipes
 		// 	if builtin

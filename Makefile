@@ -6,7 +6,7 @@
 #    By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/28 19:30:42 by urycherd         ###   ########.fr        #
+#    Updated: 2022/09/28 21:43:58 by urycherd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ SRCSDIR			=	./srcs
 OBJSDIR			=	./objs
 
 SRCS			=	minishell.c	signals.c	lexer.c\
-					utils.c	builtins/env.c \
+					utils.c	builtins/env.c builtins/echo.c\
 					builtins/export_arg.c builtins/export.c 
 
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))

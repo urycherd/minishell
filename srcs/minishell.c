@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/28 18:51:26 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:26:10 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,74 @@ void	fill_cmd_content(int size, t_command *content, t_list **iter_lexem)
 	// printf("Exit\n");
 }
 
+// void	handle_expansions(t_main **main)
+// {
+// 	t_list	*lexem;
+// 	t_lexem	*content;
+// 	t_list	*new_lexem;
+// 	// int		flag_quotes;
+// 	char	**str;
+// 	int		i;
+
+// 	lexem = (*main)->lexems;
+// 	while (lexem)
+// 	{
+// 		if (((t_lexem *)(lexem->content))->token == TOKEN_DQUOTE)
+// 		{
+// 			// flag_quotes = 1;
+// 			content = (t_lexem *)malloc(sizeof(t_lexem));
+// 			if (content == NULL)
+// 				exit(EXIT_FAILURE);
+// 			str = &((t_lexem *)(lexem->content))->str;
+// 			i = -1;
+// 			while (str[0] && str[0][++i])
+// 			{
+// 				// if (str[0][i] == '\'')
+// 				// 	flag_quotes *= -1;
+// 				if (str[0][i] == '$') //&& flag_quotes > 0)
+// 				{
+// 					deal_with_dollar(str[0], &i, &content);
+// 					new_lexem = ft_lstnew(content);
+// 					if (new_lexem == NULL)
+// 						exit(EXIT_FAILURE);
+// 					ft_lstadd_after
+// 				}
+// 			}
+// 			lexem
+// 			ft_lstdelone(lexem);
+// 		}
+// 		lexem = lexem->next;
+// 	}
+// }
+
+void	join_lexems(t_main **main)
+{
+	t_list	*lexem;
+	t_list	*next;
+
+	lexem = (*main)->lexems;
+	next = lexem->next;
+	while (lexem && next)
+	{
+		if ((((t_lexem *)(lexem->content))->token == TOKEN_WORD
+			|| ((t_lexem *)(lexem->content))->token == TOKEN_DQUOTE)
+			&& (((t_lexem *)(next->content))->token == TOKEN_WORD
+			|| ((t_lexem *)(next->content))->token == TOKEN_DQUOTE))
+		{
+			((t_lexem *)(lexem->content))->len += ((t_lexem *)(next->content))->len;
+			((t_lexem *)(lexem->content))->str =
+				ft_strjoin_mod(((t_lexem *)(lexem->content))->str,
+				((t_lexem *)(next->content))->str);
+			lexem->next = next->next;
+			ft_lstdelone(next, free);
+			next = lexem->next;
+			continue ;
+		}
+		lexem = lexem->next;
+		next = lexem->next;
+	}
+}
+
 void	parser(t_main **main)
 {
 	t_list		*new_command;
@@ -123,8 +191,10 @@ void	parser(t_main **main)
 	int			size;
 
 	// parse_dollars(main);
+	// handle_expansions(main);
 	(*main)->commands = NULL;
 	iter_lexem = (*main)->lexems;
+	
 	// printf("%s\n", ((t_lexem *)(iter_lexem->content))->str);
 	while (iter_lexem)
 	{
@@ -134,6 +204,7 @@ void	parser(t_main **main)
 			iter_lexem = iter_lexem->next;
 		// else if (((t_lexem *)(iter_lexem->content))->token == TOKEN_WORD
 		// 	|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_DQUOTE)
+
 		else
 		{
 			content = (t_command *)malloc(sizeof(t_command));
@@ -226,16 +297,18 @@ int	main(int argc, char **argv, char **envp)
 		else if (input && *input)
 		{
 			lexer(&main, input);
+			join_lexems(&main);
 			print_lexems(&main);
 		}
 		// 3.parser part
 		free(input);
 		parser(&main);
 		print_parsed(&main);
-		if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
-			main->ret = ft_pwd();
+		// if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
+		// 	main->ret = ft_pwd();
 		
-		printf("%d\n", ft_export(&main, ((t_command *)(main->commands->content))->args));
+		// printf("%d\n", ft_export(&main, ((t_command *)(main->commands->content))->args));
+		// printf("%d\n", ft_export(&main, ((t_command *)(main->commands->content))->args));
 		// 4.executor part
 		// if no pipes
 		// 	if builtin

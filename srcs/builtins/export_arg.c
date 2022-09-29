@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:18:23 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/28 17:38:28 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/28 19:00:48 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	key_val_checker(char *key)
 	return (0);
 }
 
-static int	arg_val_checker(char *arg)
+static int	arg_val_checker(t_list *env, char *arg)
 {
 	char	*key;
 	int		size;
@@ -88,9 +88,11 @@ int	arg_export(t_list *env, char *arg)
 
 	i = 0;
 	size = ft_lstsize(env);
-	if (arg_val_checker(arg))
+	if (arg_val_checker(env, arg))
 		return (1);
+	while (env->next)
 	
+
 	//если ключ существует в env - перезаписываем значение
 	//иначе добавляем в начало списка
 	return (0);

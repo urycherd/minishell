@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/28 17:48:34 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:35:19 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,19 @@ int		ft_echo(char **args);
 void	deal_with_signals(void);
 
 void	lexer(t_main **main, char *input);
+void	deal_with_dollar(char *input, int *i, t_lexem **content);
 
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c);
 void	make_env_list(t_main **main, char **envp);
+char	*ft_strjoin_mod(char *s1, char *s2);
 
 int		ft_env(t_list *env);
 int		ft_pwd(void);
-int		ft_export(t_main **main, char **arg);
+// int		ft_export(t_main **main, char **arg);
 
 //sup functions for builtin
 char	*ft_detect_key(char *str);
-int		arg_export(t_list *env, char *arg);
+// int		arg_export(t_list *env, char *arg);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:18:23 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/29 21:57:37 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:30:24 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_detect_key(char *str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 		++i;
+	if (str[i] != '=')
+		return (NULL);
 	key = (char *)malloc(sizeof(char) * (i + 1));
 	if (key == NULL)
 		return (NULL);

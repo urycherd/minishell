@@ -6,33 +6,11 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/29 21:38:27 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:43:45 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
-
-int	ft_change_env(char *key, char *path, t_main *main)
-{
-	t_list	*tmp;
-
-	tmp = main->env;
-	while (tmp->next)
-	{
-		if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
-		{
-			tmp->content = path;
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
-	{
-		tmp->content = path;
-		return (1);
-	}
-	return (0);
-}
 
 int	make_new_key(t_main *main, char *key, char	*path)
 {
@@ -74,9 +52,33 @@ int	cd_to_arg(t_main *main, char *path)
 	return (0);
 }
 
+int	check_key_exist(t_main *main, char *str)
+{
+	t_list	*envp;
+	char	*key;
+
+	envp = main->env;
+	while (envp)
+	{
+		key = ft_detect_key(envp->content);
+		if (ft_strcmp(key, str) == 0) //SEGV on unknown address
+			return (0);
+		envp = envp->next;
+		free(key);
+	}
+	return (1);
+}
+
 int	ft_cd(t_main *main, char **args)
 {
-	// проверить есть ли pwd и oldpwd и создать, если нет
+	// strdup may be needed
+	// if (check_key_exist(main, "OLDPWD"))
+	// 	ft_lstadd_front(&main->env, ft_lstnew("OLDPWD"));
+	// if (check_key_exist(main, "PWD"))
+	// {
+	// 	ft_lstadd_front(&main->env, ft_lstnew("PWD"));
+	// 	current_pwd_to_key(main, "PWD");
+	// }
 	if (!(args[1]) || ft_strcmp(args[1], "~") == 0
 		|| ft_strcmp(args[1], "--") == 0)
 		return (cd_to_arg(main, getenv("HOME")));

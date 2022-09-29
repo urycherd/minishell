@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:28 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/29 22:08:52 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:25:15 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,11 @@ char	**lst_to_arr_str(t_list *env, int size)
 
 	i = 0;
 	arr_str = (char **)malloc(sizeof(char *) * size);
-	while (env->next)
+	while (env)
 	{
 		arr_str[i++] = env->content;
 		env = env->next;
 	}
-	arr_str[i] = env->content;
 	buble_sort(arr_str, size);
 	return (arr_str);
 }

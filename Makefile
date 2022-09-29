@@ -6,7 +6,7 @@
 #    By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/09/28 21:43:58 by urycherd         ###   ########.fr        #
+#    Updated: 2022/09/29 16:07:47 by urycherd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,9 @@ SRCSDIR			=	./srcs
 OBJSDIR			=	./objs
 
 SRCS			=	minishell.c	signals.c	lexer.c\
-					utils.c	builtins/env.c builtins/echo.c\
-					builtins/export_arg.c builtins/export.c 
+					utils.c	\
+					builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c\
+					builtins/export_arg.c builtins/export.c builtins/pwd.c builtins/unset.c
 
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 
@@ -36,7 +37,6 @@ CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g
 
 RFLAGS			=	-lreadline\
-					-L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib\
 					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include\
 					-ltermcap
 

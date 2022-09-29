@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/28 21:44:20 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 16:12:17 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,12 +232,24 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		parser(&main);
 		print_parsed(&main);
-		if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "env"))
-			ft_env(main->env);
-		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "export"))
-			ft_export(&main, ((t_command *)(main->commands->content))->args);
+		if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "cd"))
+			ft_cd(main, ((t_command *)(main->commands->content))->args);
 		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "echo"))
 			ft_echo(((t_command *)(main->commands->content))->args);
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "env"))
+		{
+			if (((t_command *)(main->commands->content))->args[1])
+				return (1); //error too many args
+			ft_env(main->env);
+		}
+		// else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "exit"))
+		// 	ft_exit(main, ((t_command *)(main->commands->content))->args);
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "export"))
+			ft_export(&main, ((t_command *)(main->commands->content))->args);
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
+			ft_pwd();
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "unset"))
+			ft_unset(&main, ((t_command *)(main->commands->content))->args);
 		// 4.executor part
 		// if no pipes
 		// 	if builtin

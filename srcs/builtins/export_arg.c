@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:18:23 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/28 21:54:13 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:57:37 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	key_val_checker(char *key)
 	return (0);
 }
 
-static int	arg_val_checker(char *arg)
+static int	arg_val_checker(t_main *main, char *arg)
 {
 	char	*key;
 	int		flag;
@@ -68,8 +68,13 @@ static int	arg_val_checker(char *arg)
 		return (1); //print_error "arg" not a valid identifier
 	if (ft_iscii_arr(arg))
 		return (1); //print_error "arg" not a valid identifier
-	if (!(ft_strchr(arg, '=')))
+	if (ft_strchr(arg, '=') == 0)
+	{
+		if (ft_change_env(arg, arg, main))
+			return (0);
+		ft_lstadd_front(&main->env, ft_lstnew(arg));
 		return (0);
+	}
 	key = ft_detect_key(arg);
 	if (*key)
 		if (key_val_checker(key))
@@ -88,18 +93,11 @@ int	arg_export(t_main *main, char *arg)
 	i = 0;
 	tmp = main->env;
 	size = ft_lstsize(tmp);
-	if (arg_val_checker(arg))
+	if (arg_val_checker(main, arg))
 		return (1);
 	key = ft_detect_key(arg);
-	while (tmp->next)
-	{
-		if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
-		{
-			tmp->content = arg;
-			return (0);
-		}
-		tmp = tmp->next;
-	}
+	if (ft_change_env(key, arg, main))
+		return (1);
 	ft_lstadd_front(&main->env, ft_lstnew(arg));
 	return (0);
 }

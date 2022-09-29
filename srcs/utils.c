@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:44:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/21 19:52:50 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/29 20:14:58 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ char	*ft_strjoin_mod(char *s1, char *s2)
 	}
 	res[i] = '\0';
 	free(s1);
-	printf("%s\n", res);
 	return (res);
 }
 

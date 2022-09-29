@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:28 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/28 21:02:58 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 22:08:52 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,13 @@ static void	print_export(char **massive, int size)
 		if (key)
 		{
 			ft_putstr_fd(key, 1);
-			write(1, "=\"", 2);
-			ft_putstr_fd((massive[y] + ft_strlen(key)) + 1, 1);
-			write(1, "\"\n", 2);
+			if (ft_strchr(massive[y], '='))
+			{
+				write(1, "=\"", 1);
+				ft_putstr_fd((massive[y] + ft_strlen(key)) + 1, 1);
+				write(1, "\"", 1);
+			}
+			write(1, "\n", 1);
 			free(key);
 		}
 		y++;
@@ -58,7 +62,7 @@ static void	buble_sort(char **arr_str, int size)
 	}
 }
 
-static char	**lst_to_arr_str(t_list *env, int size)
+char	**lst_to_arr_str(t_list *env, int size)
 {
 	char	**arr_str;
 	int		i;

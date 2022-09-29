@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:05 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/26 14:51:25 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 14:23:41 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_exit(t_main *main, char **arg)
 		ft_putendl_fd(": numeric argument required", 2);
 	}
 	else if (arg[1])
-		main->ret = ft_atou(num) % 256;
+		main->ret = ft_atou(arg[1]) % 256;
 	else
-		mini->ret = 0;
+		main->ret = 0;
 }

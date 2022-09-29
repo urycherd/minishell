@@ -6,74 +6,81 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/27 17:09:53 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 21:38:27 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-// тестить надо + вывод ошибок 
-// создавать должен oldpwd и сам определять pwd
-
-static int	ft_change_env(char *name, char *path, t_list *env)
+int	ft_change_env(char *key, char *path, t_main *main)
 {
-	while (ft_strcmp(name, env->content))
-		env = env->next;
-	free(env->content);
-	env->content = path;
+	t_list	*tmp;
+
+	tmp = main->env;
+	while (tmp->next)
+	{
+		if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
+		{
+			tmp->content = path;
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
+	{
+		tmp->content = path;
+		return (1);
+	}
 	return (0);
 }
 
-static int	go_to(t_main *main, char *name)
+int	make_new_key(t_main *main, char *key, char	*path)
 {
-	char	cwd[MAX_PATH];
-	char	*old_path;
-	char	*new_path;
-	char	*path;
-	int		result;
-	t_list 	*env;
+	if (ft_strcmp(key, "OLDPWD") == 0)
+		ft_putendl_fd("bash: cd: OLDPWD not set", 2);
+	else if (ft_strcmp(key, "PWD") == 0)
+	{
+		ft_lstadd_front(&main->env, ft_lstnew(key));
+		if (ft_change_env(key, path, main))
+			return (1);
+	}
+	return (0);
+}
 
-	env = main->env;
-	// определяем по какому пути пойдем
-	path = getenv(name);
-	// сохраняем текущую, тк она становится старой
-	if (getcwd(cwd, MAX_PATH) == NULL) 
-		return (1);
-	old_path = ft_strjoin("OLDPWD=", cwd);
-	if (!(old_path))
-		return (1);
-	// переходим на системном уровне в указанную path и задаем ее как новую
-	result = chdir(path);
-	if (result != 0)
-		return (result);
+int	current_pwd_to_key(t_main *main, char *key)
+{
+	char	*path;
+	char	cwd[MAX_PATH];
+	t_list	*tmp;
+
+	tmp = main->env;
 	if (getcwd(cwd, MAX_PATH) == NULL)
 		return (1);
-	new_path = ft_strjoin("PWD=", cwd);
-	if (!(new_path))
+	path = ft_strjoin_mod(ft_strjoin(key, "="), cwd);
+	if (!(path))
 		return (1);
-	// сохраняем new_path в env
-	if (ft_change_env("PWD=", new_path, env))
+	if (ft_change_env(key, path, main))
 		return (1);
-	// сохраняем старую в env
-	if (ft_change_env("OLDPWD=", old_path, env))
-		return (1);
-	free(old_path);
-	free(new_path);
 	free(path);
 	return (0);
 }
 
-int	ft_cd(char **args, t_list *env)
+int	cd_to_arg(t_main *main, char *path)
 {
-	int	tmp;
+	if (current_pwd_to_key(main, "OLDPWD") && chdir(path) != 0)
+		return (1);
+	if (current_pwd_to_key(main, "PWD"))
+		return (1);
+	return (0);
+}
 
-	if (!(args[1]) || ft_strcmp(args[1], "~") == 0|| ft_strcmp(args[1], "--") == 0)
-		return go_to(env, "HOME");
-	if (ft_strcmp(args[1], "-"))
-		return go_to(env, "OLDPWD");
-	// update_oldpwd(env);
-	tmp = chdir(args[1]);
-	// if (tmp != 0)
-	// 	error;
-	return (tmp);
+int	ft_cd(t_main *main, char **args)
+{
+	// проверить есть ли pwd и oldpwd и создать, если нет
+	if (!(args[1]) || ft_strcmp(args[1], "~") == 0
+		|| ft_strcmp(args[1], "--") == 0)
+		return (cd_to_arg(main, getenv("HOME")));
+	if (ft_strcmp(args[1], "-") == 0)
+		return (cd_to_arg(main, getenv("OLDPWD")));
+	return (cd_to_arg(main, args[1]));
 }

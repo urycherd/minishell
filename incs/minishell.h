@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/29 21:35:19 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/09/29 23:30:05 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,11 @@ char	*ft_strjoin_mod(char *s1, char *s2);
 
 int		ft_env(t_list *env);
 int		ft_pwd(void);
-// int		ft_export(t_main **main, char **arg);
+int		ft_export(t_main **main, char **arg);
+int		ft_echo(char **args);
 
 //sup functions for builtin
 char	*ft_detect_key(char *str);
-// int		arg_export(t_list *env, char *arg);
+int		arg_export(t_main *main, char *arg);
 
 #endif

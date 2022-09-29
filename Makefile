@@ -6,7 +6,11 @@
 #    By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2022/09/28 21:05:38 by qsergean         ###   ########.fr        #
+=======
+#    Updated: 2022/09/28 21:43:58 by urycherd         ###   ########.fr        #
+>>>>>>> da94fca7a618b6ba935784c146f2b548613f47a2
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +20,15 @@ SRCSDIR			=	./srcs
 
 OBJSDIR			=	./objs
 
+<<<<<<< HEAD
 SRCS			=	minishell.c		signals.c		lexer.c\
 					utils.c			builtins/env.c
 # builtins/export_arg.c	builtins/export.c 
+=======
+SRCS			=	minishell.c	signals.c	lexer.c\
+					utils.c	builtins/env.c builtins/echo.c\
+					builtins/export_arg.c builtins/export.c 
+>>>>>>> da94fca7a618b6ba935784c146f2b548613f47a2
 
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 

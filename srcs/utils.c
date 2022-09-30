@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:44:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/29 20:14:58 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:36:48 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,24 @@ int	change_to_spaces_and_check_quotes(char **str)
 
 int	get_word_len(char *str, int i, char c)
 {
-	int	res;
+	int		res;
+	char	extra;
+	// char	opp;
 
+	// if (c == '\'')
+	// 	opp = '\"';
+	// else if (c == '\"')
+	// 	opp = '\'';
+	// else
+	// 	opp = '\0';
+	extra = '\0';
+	if (c == ' ')
+		extra = '$';
 	res = 0;
 	while (str[i + res] && str[i + res] != c
-		&& str[i] != '\n')
+		&& str[i] != '\n' && str[i] != '|' && str[i] != extra)
 		res++;
+	// printf ("c = %c, len = %d\n", c, res);
 	return (res);
 }
 

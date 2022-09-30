@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/29 21:31:32 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/30 11:54:23 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,17 +81,17 @@ typedef struct s_info
 void	deal_with_signals(void);
 
 void	lexer(t_main **main, char *input);
+void	deal_with_dollar(char *input, int *i, t_lexem **content);
 
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
 
-
 int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
 int		ft_env(t_list *env);
-// void	ft_exit(t_main *main, char **arg);
+void	ft_exit(t_main *main, char **arg);
 int		ft_export(t_main **main, char **arg);
 void	ft_unset(t_main **main, char **arg);
 int		ft_pwd(void);

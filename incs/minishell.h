@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/10/02 18:00:19 by qsergean         ###   ########.fr       */
+=======
+/*   Updated: 2022/09/30 11:54:23 by urycherd         ###   ########.fr       */
+>>>>>>> 1d2f7e7a964a7116c66dc10ebd57a58544d29494
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +87,6 @@ typedef struct s_info
 	// int				status;
 }	t_info;
 
-int		ft_echo(char **args);
-int		ft_env(t_list *env);
-int		ft_pwd(void);
-int		ft_echo(char **args);
-
 void	deal_with_signals(void);
 
 int		lexer(t_main **main, char *input);
@@ -98,13 +97,19 @@ int		get_word_len(char *str, int i, char c, int flag);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
 
-int		ft_env(t_list *env);
-int		ft_pwd(void);
-int		ft_export(t_main **main, char **arg);
+int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
+int		ft_env(t_list *env);
+void	ft_exit(t_main *main, char **arg);
+int		ft_export(t_main **main, char **arg);
+void	ft_unset(t_main **main, char **arg);
+int		ft_pwd(void);
 
 //sup functions for builtin
 char	*ft_detect_key(char *str);
 int		arg_export(t_main *main, char *arg);
+int		ft_change_env(char *key, char *path, t_main *main);
+char	**lst_to_arr_str(t_list *env, int size);
+
 
 #endif

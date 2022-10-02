@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/27 17:19:55 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/09/29 22:23:23 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 
 int	ft_env(t_list *env)
 {
-	if (env)
+	while (env)
 	{
-		while (env->next != NULL)
-		{
+		if (ft_strchr(env->content, '='))
 			ft_putendl_fd(env->content, 1);
-			env = env->next;
-		}
-		ft_putendl_fd(env->content, 1);
+		env = env->next;
 	}
 	return (0);
 }

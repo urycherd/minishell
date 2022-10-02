@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/02 18:20:45 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:22:56 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,11 +302,36 @@ int	main(int argc, char **argv, char **envp)
 			parser(&main);
 			print_parsed(&main);
 		}
+<<<<<<< HEAD
 		// if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
 		// 	main->ret = ft_pwd();
 		
 		// printf("%d\n", ft_export(&main, ((t_command *)(main->commands->content))->args));
 		// printf("%d\n", ft_export(&main, ((t_command *)(main->commands->content))->args));
+=======
+		// 3.parser part
+		free(input);
+		parser(&main);
+		print_parsed(&main);
+		// if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "cd"))
+		// 	ft_cd(main, ((t_command *)(main->commands->content))->args);
+		if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "echo"))
+			ft_echo(((t_command *)(main->commands->content))->args);
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "env"))
+		{
+			if (((t_command *)(main->commands->content))->args[1])
+				return (1); //error too many args
+			ft_env(main->env);
+		}
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "exit"))
+			ft_exit(main, ((t_command *)(main->commands->content))->args);
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "export"))
+			ft_export(&main, ((t_command *)(main->commands->content))->args);
+		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
+			ft_pwd();
+		// else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "unset"))
+		// 	ft_unset(&main, ((t_command *)(main->commands->content))->args);
+>>>>>>> 1d2f7e7a964a7116c66dc10ebd57a58544d29494
 		// 4.executor part
 		// if no pipes
 		// 	if builtin

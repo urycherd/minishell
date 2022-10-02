@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/29 23:30:05 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:00:19 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ enum e_tokens
 	// TOKEN_R_BRACKET
 };
 
+typedef struct s_redir
+{
+	char			*filename;
+	enum e_tokens	token;
+}	t_redir;
+
 typedef struct s_lexem
 {
 	char			*str;
@@ -52,7 +58,6 @@ typedef struct s_lexem
 
 typedef struct s_command
 {
-	// char	*cmd;
 	char	**args;
 	int		file_open;
 	int		file_close;
@@ -85,11 +90,11 @@ int		ft_echo(char **args);
 
 void	deal_with_signals(void);
 
-void	lexer(t_main **main, char *input);
+int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
 
 int		change_to_spaces_and_check_quotes(char **str);
-int		get_word_len(char *str, int i, char c);
+int		get_word_len(char *str, int i, char c, int flag);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
 

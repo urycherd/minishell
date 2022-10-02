@@ -6,69 +6,11 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/29 23:29:49 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:20:45 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
-
-// char	*ft_realloc(ptr, newSize)
-//     // char 	 *ptr;		
-// 				/* Ptr to currently allocated block.  If
-// 				 * it's 0, then this procedure behaves
-// 				 * identically to malloc. */
-//     // unsigned int newSize;	/* Size of block after it is extended */
-// {
-//     unsigned int curSize;
-//     char *newPtr;
-//     if (ptr == 0)
-// 	{
-// 		return (malloc(newSize));
-//     }
-//     curSize = Mem_Size(ptr);
-//     if (newSize <= curSize)
-// 	{
-// 		return (ptr);
-//     }
-//     newPtr = malloc(newSize);
-//     ft_memcpy(ptr, newPtr, (size_t)curSize);
-//     free(ptr);
-//     return (newPtr);
-// }
-
-// char	*deal_with_dollar(char *input, int *i)
-// {
-// 	char	*after_dollar;
-// 	int		len;
-// 	int		j;
-// 	len = get_word_len(input, *i, ' ') + 1;
-// 	after_dollar = (char *)malloc(sizeof(char) * len);
-// 	if (after_dollar == NULL)
-// 		exit(EXIT_FAILURE);
-// 	*i += 1;
-// 	j = 0;
-// 	while (input[*i] && input[*i] != ' '
-// 		&& input[*i] != '\n' && input[*i] != '$'
-// 		&& input[*i] != '\"' && input[*i] != '\'')
-// 	{
-// 		after_dollar[j] = input[*i];
-// 		j++;
-// 		*i += 1;
-// 	}
-// 	after_dollar[j] = '\0';
-// 	return (ft_strdup(getenv(after_dollar))); 
-// }
-
-// void	parse_dollars(t_main **main)
-// {
-// 	t_list	*iter_lexem;
-	
-// 	iter_lexem = (*main)->lexems;
-// 	while (iter_lexem)
-// 	{
-		
-// 	}
-// }
 
 int	get_num_of_args(t_list *lexem)
 {
@@ -89,6 +31,44 @@ int	get_num_of_args(t_list *lexem)
 	return (i);
 }
 
+void	ft_lstadd_after(t_list **node, t_list **new)
+{
+	t_list	*tmp;
+
+	if (*node == NULL || *new == NULL)
+		return ;
+	tmp = (*node)->next;
+	(*node)->next = *new;
+	(*new)->next = tmp; 
+}
+
+t_list	*ft_lstdel_smart(t_list **list, t_list *node)
+{
+	t_list	*iter;
+	t_list	*tmp;
+
+	iter = (*list);
+	if (iter == node)
+	{
+		tmp = *list;
+		*list = (*list)->next;
+		ft_lstdelone(tmp, free);
+		return (*list);
+	}
+	else
+	{
+		while (iter)
+		{
+			if (iter->next == node)
+				break;
+			iter = iter->next;
+		}
+		iter->next = node->next;
+		ft_lstdelone(node, free);
+		return (iter);
+	}
+}
+
 void	fill_cmd_content(int size, t_command *content, t_list **iter_lexem)
 {
 	int	i;
@@ -99,61 +79,73 @@ void	fill_cmd_content(int size, t_command *content, t_list **iter_lexem)
 	i = -1;
 	while (++i < size && *iter_lexem)
 	{
-		// // printf("%p\n", ((t_lexem *)((*iter_lexem)->content))->str);
-		// if (((t_lexem *)((*iter_lexem)->content))->token == TOKEN_PIPE)
-		// 	break ;
-		// printf("biba\n");
 		while (((t_lexem *)((*iter_lexem)->content))->token == TOKEN_SEP) // это ерунда, тут нужно умнее сделать
-		{
-			// printf("%d\n", i);
 			(*iter_lexem) = (*iter_lexem)->next;
-		}
 		(content->args)[i] = ft_strdup(((t_lexem *)((*iter_lexem)->content))->str);
 		*iter_lexem = (*iter_lexem)->next;
 	}
 	(content->args)[i] = NULL;
-	// printf("Exit\n");
 }
 
-// void	handle_expansions(t_main **main)
-// {
-// 	t_list	*lexem;
-// 	t_lexem	*content;
-// 	t_list	*new_lexem;
-// 	// int		flag_quotes;
-// 	char	**str;
-// 	int		i;
+void	deal_with_word_light(char *input, int *i, t_lexem **content)
+{
+	int	j;
 
-// 	lexem = (*main)->lexems;
-// 	while (lexem)
-// 	{
-// 		if (((t_lexem *)(lexem->content))->token == TOKEN_DQUOTE)
-// 		{
-// 			// flag_quotes = 1;
-// 			content = (t_lexem *)malloc(sizeof(t_lexem));
-// 			if (content == NULL)
-// 				exit(EXIT_FAILURE);
-// 			str = &((t_lexem *)(lexem->content))->str;
-// 			i = -1;
-// 			while (str[0] && str[0][++i])
-// 			{
-// 				// if (str[0][i] == '\'')
-// 				// 	flag_quotes *= -1;
-// 				if (str[0][i] == '$') //&& flag_quotes > 0)
-// 				{
-// 					deal_with_dollar(str[0], &i, &content);
-// 					new_lexem = ft_lstnew(content);
-// 					if (new_lexem == NULL)
-// 						exit(EXIT_FAILURE);
-// 					ft_lstadd_after
-// 				}
-// 			}
-// 			lexem
-// 			ft_lstdelone(lexem);
-// 		}
-// 		lexem = lexem->next;
-// 	}
-// }
+	(*content)->len = get_word_len(input, *i, ' ', 0);
+	(*content)->str = (char *)malloc(sizeof(char)
+			* (get_word_len(input, *i, '\0', 1) + 1));
+	if ((*content)->str == NULL)
+		exit(EXIT_FAILURE);
+	j = 0;
+	while (input[*i] != '\n' && input[*i] != '\0' 
+		&& input[*i] != '$')
+	{
+		(*content)->str[j] = input[*i];
+		j++;
+		*i += 1;
+	}
+	(*content)->str[j] = '\0';
+	(*content)->token = TOKEN_WORD;
+}
+
+void	handle_expansions(t_main **main)
+{
+	t_list	*lexem;
+	t_list	*new_lexem;
+	t_list	*save;
+	t_lexem	*content;
+	char	*str;
+	int		i;
+
+	lexem = (*main)->lexems;
+	while (lexem)
+	{
+		if (((t_lexem *)(lexem->content))->token == TOKEN_DQUOTE)
+		{
+			save = lexem;
+			str = *(&((t_lexem *)(lexem->content))->str);
+			i = 0;
+			while (str && str[i])
+			{
+				content = (t_lexem *)malloc(sizeof(t_lexem));
+				if (content == NULL)
+					exit(EXIT_FAILURE);
+				if (str[i] == '$')
+					deal_with_dollar(str, &i, &content);
+				else if (str && str[i])
+					deal_with_word_light(str, &i, &content);
+				new_lexem = ft_lstnew(content);
+				if (new_lexem == NULL)
+					exit(EXIT_FAILURE);
+				ft_lstadd_after(&save, &new_lexem);
+				save = save->next;
+			}
+			ft_lstdel_smart(&(*main)->lexems, lexem);
+			lexem = save;
+		}
+		lexem = lexem->next;
+	}
+}
 
 void	join_lexems(t_main **main)
 {
@@ -161,13 +153,13 @@ void	join_lexems(t_main **main)
 	t_list	*next;
 
 	lexem = (*main)->lexems;
+	if (lexem == NULL)
+		return ;
 	next = lexem->next;
 	while (lexem && next)
 	{
-		if ((((t_lexem *)(lexem->content))->token == TOKEN_WORD
-			|| ((t_lexem *)(lexem->content))->token == TOKEN_DQUOTE)
-			&& (((t_lexem *)(next->content))->token == TOKEN_WORD
-			|| ((t_lexem *)(next->content))->token == TOKEN_DQUOTE))
+		if (((t_lexem *)(lexem->content))->token == TOKEN_WORD
+			&& ((t_lexem *)(next->content))->token == TOKEN_WORD)
 		{
 			((t_lexem *)(lexem->content))->len += ((t_lexem *)(next->content))->len;
 			((t_lexem *)(lexem->content))->str =
@@ -190,8 +182,6 @@ void	parser(t_main **main)
 	t_command	*content;
 	int			size;
 
-	// parse_dollars(main);
-	// handle_expansions(main);
 	(*main)->commands = NULL;
 	iter_lexem = (*main)->lexems;
 	
@@ -202,15 +192,19 @@ void	parser(t_main **main)
 			|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_NEWLINE
 			|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_PIPE)
 			iter_lexem = iter_lexem->next;
-		// else if (((t_lexem *)(iter_lexem->content))->token == TOKEN_WORD
-		// 	|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_DQUOTE)
-
+		else if (((t_lexem *)(iter_lexem->content))->token == TOKEN_OUT_REDIR
+			|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_OUT_REDIR_APPEND
+			|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_IN_REDIR
+			|| ((t_lexem *)(iter_lexem->content))->token == TOKEN_HEREDOC)
+		{
+			iter_lexem = iter_lexem->next; //вот тут надо обработать бро!!!
+		}
 		else
 		{
 			content = (t_command *)malloc(sizeof(t_command));
 			if (content == NULL)
 				exit(EXIT_FAILURE);
-			size = get_num_of_args(iter_lexem);
+			size = get_num_of_args(iter_lexem); // убрать из учета тут редиректы 
 			// printf("size=%d\n", size);
 			fill_cmd_content(size, content, &iter_lexem);
 			new_command = ft_lstnew(content);
@@ -296,14 +290,18 @@ int	main(int argc, char **argv, char **envp)
 		// 2.lexer part
 		else if (input && *input)
 		{
-			lexer(&main, input);
+			if (lexer(&main, input) == EXIT_FAILURE)
+			{
+				free(input);
+				continue ;
+			} 
+			handle_expansions(&main);
 			join_lexems(&main);
 			print_lexems(&main);
+			free(input);
+			parser(&main);
+			print_parsed(&main);
 		}
-		// 3.parser part
-		free(input);
-		parser(&main);
-		print_parsed(&main);
 		// if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
 		// 	main->ret = ft_pwd();
 		

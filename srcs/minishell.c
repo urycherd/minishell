@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/03 12:57:24 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:47:06 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,38 +302,8 @@ int	main(int argc, char **argv, char **envp)
 			parser(&main);
 			print_parsed(&main);
 		}
-		// 3.parser part
-		if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "cd"))
-			ft_cd(main, ((t_command *)(main->commands->content))->args);
-		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "echo"))
-			ft_echo(((t_command *)(main->commands->content))->args);
-		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "env"))
-		{
-			if (((t_command *)(main->commands->content))->args[1])
-				return (1); //error too many args
-			ft_env(main->env);
-		}
-		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "exit"))
-			ft_exit(main, ((t_command *)(main->commands->content))->args);
-		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "export"))
-			ft_export(&main, ((t_command *)(main->commands->content))->args);
-		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "pwd"))
-			ft_pwd();
-		else if (!ft_strcmp(((t_command *)(main->commands->content))->args[0], "unset"))
-			ft_unset(&main, ((t_command *)(main->commands->content))->args);
 		// 4.executor part
-		// if no pipes
-		// 	if builtin
-		// 		call builtin
-		// 	else
-		//		fork
-		// else
-		//	if builtin {
-		//		call builtin
-		//		save result to tmp file
-		//	}
-		//	else
-		//		common pipex
+		executor(main);
 		// вообще надо создать нечто а-ля пайпекс с бонусами и положить в него проверку на билин или нет для случая с папами
 	}
 	return (main->ret);

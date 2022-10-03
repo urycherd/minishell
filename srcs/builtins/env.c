@@ -6,16 +6,16 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/29 22:23:23 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:54:26 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-// проверять, что команда без аргументов поступает и выводить ошибку
-
-int	ft_env(t_list *env)
+int	ft_env(t_list *env, char **arg)
 {
+	if (arg[1])
+		return (print_error("env", arg[1], "No such file or directory"));
 	while (env)
 	{
 		if (ft_strchr(env->content, '='))

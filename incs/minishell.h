@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/03 14:04:13 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 21:54:40 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	deal_with_signals(void);
 
 int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
+int		executor(t_main *main);
+
 
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c, int flag);
@@ -96,7 +98,7 @@ int		print_error(char *cmd, char *arg, char *error_name);
 
 int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
-int		ft_env(t_list *env);
+int		ft_env(t_list *env, char **arg);
 void	ft_exit(t_main *main, char **arg);
 int		ft_export(t_main **main, char **arg);
 void	ft_unset(t_main **main, char **arg);

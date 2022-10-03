@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/03 15:08:36 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 17:13:07 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,10 @@ int	check_key_exist(t_main *main, char *str)
 int	ft_cd(t_main *main, char **args)
 {
 	if (check_key_exist(main, "OLDPWD"))
-		ft_lstadd_front(&main->env, ft_lstnew("OLDPWD"));
+		ft_lstadd_front(&main->env, ft_lstnew("OLDPWD="));
 	if (check_key_exist(main, "PWD"))
 	{
-		ft_lstadd_front(&main->env, ft_lstnew("PWD"));
+		ft_lstadd_front(&main->env, ft_lstnew("PWD="));
 		current_pwd_to_key(main, "PWD");
 	}
 	if (!(args[1]) || ft_strcmp(args[1], "~") == 0

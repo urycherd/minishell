@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:42:06 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/29 21:35:05 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/02 16:53:40 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	deal_with_dollar(char *input, int *i, t_lexem **content)
 	char	*res;
 
 	*i += 1;
-	len = get_word_len(input, *i, ' ');
+	len = get_word_len(input, *i, ' ', 0);
 	after_dollar = (char *)malloc(sizeof(char) * (len + 2));
 	if (after_dollar == NULL)
 		exit(EXIT_FAILURE);
@@ -39,8 +39,8 @@ void	deal_with_dollar(char *input, int *i, t_lexem **content)
 	(*content)->token = TOKEN_WORD;
 	if (res == NULL)
 	{
-		(*content)->len = ft_strlen(after_dollar);
-		(*content)->str = ft_strdup(after_dollar);
+		(*content)->len = 0;
+		(*content)->str = ft_strdup("");
 	}
 	else
 	{
@@ -120,7 +120,7 @@ static void	deal_with_quotes(char *input, int *i, t_lexem **content)
 		return ;
 	}
 	c = input[*i];
-	(*content)->len = get_word_len(input, *i + 1, c);
+	(*content)->len = get_word_len(input, *i + 1, c, 0);
 	if (c == '\"')
 		(*content)->token = TOKEN_DQUOTE;
 	else
@@ -142,15 +142,16 @@ static void	deal_with_word(char *input, int *i, t_lexem **content)
 {
 	int	j;
 
-	(*content)->len = get_word_len(input, *i, ' ');
+	(*content)->len = get_word_len(input, *i, ' ', 0);
 	(*content)->str = (char *)malloc(sizeof(char)
-			* (get_word_len(input, *i, ' ') + 1));
+			* (get_word_len(input, *i, ' ', 0) + 1));
 	if ((*content)->str == NULL)
 		exit(EXIT_FAILURE);
 	j = 0;
 	while (input[*i] != ' ' && input[*i] != '\n'
 		&& input[*i] != '\0' && input[*i] != '$'
-		&& input[*i] != '\'' && input[*i] != '\'')
+		&& input[*i] != '\'' && input[*i] != '\'' // почему тут два раза??
+		&& input[*i] != '|')
 	{
 		// if (input[*i] == '\"' || input[*i] == '\'')
 		// 	deal_with_quotes(input, i, content);
@@ -162,14 +163,17 @@ static void	deal_with_word(char *input, int *i, t_lexem **content)
 	(*content)->token = TOKEN_WORD;
 }
 
-void	lexer(t_main **main, char *input)
+int	lexer(t_main **main, char *input)
 {
 	t_list	*new_lexem;
 	t_lexem	*content;
 	int		i;
 
 	add_history(input);
-	change_to_spaces_and_check_quotes(&input);
+	if (change_to_spaces_and_check_quotes(&input) < 0)
+	{
+		return (EXIT_FAILURE);
+	}
 	(*main)->lexems = NULL;
 	i = 0;
 	while (input[i])
@@ -194,4 +198,5 @@ void	lexer(t_main **main, char *input)
 		// i += content->len;
 		// printf("%s, %d\n", content->str, i);
 	}
+	return (EXIT_SUCCESS);
 }

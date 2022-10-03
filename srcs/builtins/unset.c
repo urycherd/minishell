@@ -6,22 +6,46 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:11 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/02 20:07:10 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:06:09 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-int	ft_rewrite_env(char *key, char *path, t_main *main)
+char	*ft_detect_key(char *str)
+{
+	char	*key;
+	int		i;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != '=')
+		++i;
+	if (str[i] != '=')
+		return (NULL);
+	key = (char *)malloc(sizeof(char) * (i + 1));
+	if (!key)
+		return (NULL);
+	i = -1;
+	while (str[++i] && str[i] != '=')
+		key[i] = str[i];
+	key[i] = '\0';
+	return (key);
+}
+
+int	rewrite_key(char *key, char *path, t_main *main)
 {
 	t_list	*tmp;
 	int		ln;
+	char	*c;
 
 	tmp = main->env;
 	while (tmp)
 	{
 		ln = ft_strlen(key);
-		if (ft_strncmp(tmp->content, key, ln) == 0)
+		c = tmp->content;
+		if (ft_strncmp(tmp->content, key, ln) == 0 && c[ln] == '=')
 		{
 			tmp->content = path;
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/03 11:34:09 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 15:08:36 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	make_new_key(t_main *main, char *key, char	*path)
 	else if (ft_strcmp(key, "PWD") == 0)
 	{
 		ft_lstadd_front(&main->env, ft_lstnew(key));
-		if (ft_rewrite_env(key, path, main))
+		if (rewrite_key(key, path, main))
 			return (1);
 	}
 	return (0);
@@ -32,12 +32,12 @@ int	current_pwd_to_key(t_main *main, char *key)
 	t_list	*tmp;
 
 	tmp = main->env;
-	if (getcwd(cwd, MAX_PATH) == NULL || !key)
+	if (!key || getcwd(cwd, MAX_PATH) == NULL)
 		return (1);
 	path = ft_strjoin_mod(ft_strjoin(key, "="), cwd);
 	if (!(path))
 		return (1);
-	if (ft_rewrite_env(key, path, main))
+	if (rewrite_key(key, path, main))
 		return (1);
 	free(path);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/02 17:09:31 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:04:13 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ enum e_tokens
 	// TOKEN_R_BRACKET
 };
 
+typedef struct s_redir
+{
+	char			*filename;
+	enum e_tokens	token;
+}	t_redir;
+
 typedef struct s_lexem
 {
 	char			*str;
@@ -52,7 +58,6 @@ typedef struct s_lexem
 
 typedef struct s_command
 {
-	// char	*cmd;
 	char	**args;
 	int		file_open;
 	int		file_close;
@@ -80,11 +85,11 @@ typedef struct s_info
 
 void	deal_with_signals(void);
 
-void	lexer(t_main **main, char *input);
+int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
 
 int		change_to_spaces_and_check_quotes(char **str);
-int		get_word_len(char *str, int i, char c);
+int		get_word_len(char *str, int i, char c, int flag);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
 int		print_error(char *cmd, char *arg, char *error_name);
@@ -100,7 +105,7 @@ int		ft_pwd(void);
 //sup functions for builtin
 char	*ft_detect_key(char *str);
 int		arg_export(t_main *main, char *arg);
-int		ft_rewrite_env(char *key, char *path, t_main *main);
+int		rewrite_key(char *key, char *path, t_main *main);
 char	**lst_to_arr_str(t_list *env, int size);
 
 

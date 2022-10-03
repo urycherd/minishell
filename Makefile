@@ -4,7 +4,7 @@ SRCSDIR			=	./srcs
 
 OBJSDIR			=	./objs
 
-SRCS			=	minishell.c	signals.c lexer.c utils.c	expansions.c\
+SRCS			=	minishell.c	signals.c lexer.c utils.c executor.c expansions.c\
 					builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c\
 					builtins/export_arg.c builtins/export.c builtins/pwd.c builtins/unset.c
 

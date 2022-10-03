@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:05 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/30 11:58:11 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:47:39 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ unsigned int	ft_atou(char *str)
 	i = 0;
 	num = 0;
 	sign = 1;
-	if (str[0] == '-')
+	if (str[i] == '-')
 	{
 		sign *= -1;
 		i++;
@@ -58,10 +58,10 @@ static int	ft_strisnum(char *str)
 
 void	ft_exit(t_main *main, char **arg)
 {
-	ft_putendl_fd("exit", 2);
-	if (arg[2])
+	ft_putendl_fd(arg[0], 2);
+	if (arg[1] && arg[2])
 	{
-		ft_putendl_fd("minishell: exit: too many arguments\n", 2);
+		ft_putendl_fd("minishell: exit: too many arguments", 2);
 		return ;
 	}
 	main->exit_f = 1;
@@ -70,10 +70,11 @@ void	ft_exit(t_main *main, char **arg)
 		main->ret = 255;
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(arg[1], 2);
-		ft_putendl_fd(": numeric argument required\n", 2);
+		ft_putendl_fd(": numeric argument required", 2);
 	}
 	else if (arg[1])
 		main->ret = ft_atou(arg[1]) % 256;
 	else
 		main->ret = 0;
 }
+// если без параметров - сбрасывает последнюю ошибку

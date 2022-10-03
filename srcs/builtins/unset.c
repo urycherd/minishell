@@ -6,30 +6,51 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:11 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/29 23:41:39 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:42:44 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
 
-int	ft_change_env(char *key, char *path, t_main *main)
+char	*ft_detect_key(char *str)
+{
+	char	*key;
+	int		i;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i] != '=')
+		++i;
+	if (str[i] != '=')
+		return (NULL);
+	key = (char *)malloc(sizeof(char) * (i + 1));
+	if (!key)
+		return (NULL);
+	i = -1;
+	while (str[++i] && str[i] != '=')
+		key[i] = str[i];
+	key[i] = '\0';
+	return (key);
+}
+
+int	rewrite_key(char *key, char *path, t_main *main)
 {
 	t_list	*tmp;
+	int		ln;
+	char	*c;
 
 	tmp = main->env;
-	while (tmp->next)
+	while (tmp)
 	{
-		if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
+		ln = ft_strlen(key);
+		c = tmp->content;
+		if (ft_strncmp(tmp->content, key, ln) == 0 && c[ln] == '=')
 		{
 			tmp->content = path;
 			return (1);
 		}
 		tmp = tmp->next;
-	}
-	if (ft_strncmp(tmp->content, key, ft_strlen(key)) == 0)
-	{
-		tmp->content = path;
-		return (1);
 	}
 	return (0);
 }
@@ -44,14 +65,15 @@ static size_t	key_size(char *env)
 	return (i);
 }
 
-static void	node_switch(t_list **env)
-{
-	t_list	*tmp;
+// static void	node_switch(t_list **env)
+// {
+// 	// t_list	*tmp;
 
-	tmp = (*env)->next->next;
-	ft_lstdelone((*env)->next, free); // attempting free on address which was not malloc()-ed:
-	(*env)->next = tmp;
-}
+// 	// tmp = (*env)->next->next;
+// 	// // free(env);
+// 	// // ft_lstdelone((*env)->next, free); // attempting free on address which was not malloc()-ed:
+// 	// (*env)->next = tmp;
+// }
 
 void	ft_unset(t_main **main, char **arg)
 {
@@ -66,7 +88,8 @@ void	ft_unset(t_main **main, char **arg)
 		{
 			if (env->next)
 				(*main)->env = env->next;
-			ft_lstdelone(env, free); // attempting free on address which was not malloc()-ed:
+			free(env);
+			// ft_lstdelone(env, free); // attempting free on address which was not malloc()-ed:
 			return ;
 		}
 		while (env && env->next)
@@ -74,7 +97,8 @@ void	ft_unset(t_main **main, char **arg)
 			if (ft_strncmp(arg[i], env->next->content, \
 			key_size(env->next->content)) == 0)
 			{
-				node_switch(&env);
+				// node_switch(&env);
+				env->next = env->next->next; // почему не надо фришить узел??
 				return ;
 			}
 			env = env->next;

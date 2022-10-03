@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/03 21:59:08 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:17:35 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,18 @@ void	deal_with_signals(void);
 int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
 void	handle_expansions(t_main **main);
+int		executor(t_main *main);
+
 
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c, int flag);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
+int		print_error(char *cmd, char *arg, char *error_name);
 
 int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
-int		ft_env(t_list *env);
+int		ft_env(t_list *env, char **arg);
 void	ft_exit(t_main *main, char **arg);
 int		ft_export(t_main **main, char **arg);
 void	ft_unset(t_main **main, char **arg);
@@ -106,7 +109,7 @@ int		ft_pwd(void);
 //sup functions for builtin
 char	*ft_detect_key(char *str);
 int		arg_export(t_main *main, char *arg);
-int		ft_change_env(char *key, char *path, t_main *main);
+int		rewrite_key(char *key, char *path, t_main *main);
 char	**lst_to_arr_str(t_list *env, int size);
 
 void	print_lexems(t_main **main);

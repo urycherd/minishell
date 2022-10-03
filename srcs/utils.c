@@ -6,11 +6,22 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:44:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/03 21:51:53 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:16:40 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
+
+int	print_error(char *cmd, char *arg, char *error_name)
+{
+	ft_putstr_fd("minish: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putendl_fd(error_name, 2);
+	return (1);
+}
 
 char	*ft_strjoin_mod(char *s1, char *s2)
 {

@@ -6,42 +6,11 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 17:18:23 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/30 11:36:37 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 14:44:55 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
-
-char	*ft_detect_key(char *str)
-{
-	char	*key;
-	int		i;
-
-	i = 0;
-	while (str[i] && str[i] != '=')
-		++i;
-	if (str[i] != '=')
-		return (NULL);
-	key = (char *)malloc(sizeof(char) * (i + 1));
-	if (key == NULL)
-		return (NULL);
-	i = -1;
-	while (str[++i] && str[i] != '=')
-		key[i] = str[i];
-	key[i] = '\0';
-	return (key);
-}
-
-int	ft_iscii_arr(char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[++i])
-		if (!ft_isascii(str[i]))
-			return (1);
-	return (0);
-}
 
 int	key_val_checker(char *key)
 {
@@ -53,53 +22,99 @@ int	key_val_checker(char *key)
 		if (key[i] != '_' && key[i] != '/'
 			&& !ft_isalpha(key[i]) && !ft_isdigit(key[i]))
 		{
+			print_error("export: ", key, "not a valid identifier");
 			free(key);
-			return (1); //print_error "arg" not a valid identifier
+			return (1);
 		}
 	}
 	return (0);
 }
 
-static int	arg_val_checker(t_main *main, char *arg)
+int	no_key_exp(t_main *main, char *arg)
 {
+	t_list	*env;
 	char	*key;
-	int		flag;
 
-	flag = 0;
-	if (arg[0] != '_' && !ft_isalpha(arg[0]))
-		return (1); //print_error "arg" not a valid identifier
-	if (ft_iscii_arr(arg))
-		return (1); //print_error "arg" not a valid identifier
-	if (ft_strchr(arg, '=') == 0)
+	env = main->env;
+	if (!arg || ft_strchr(arg, '='))
+		return (1);
+	while (env)
 	{
-		if (ft_change_env(arg, arg, main))
+		if (!ft_strcmp(env->content, arg))
 			return (0);
-		ft_lstadd_front(&main->env, ft_lstnew(arg));
-		return (0);
+		key = ft_detect_key(env->content);
+		if (key && !ft_strcmp(key, arg))
+		{
+			free(key);
+			return (0);
+		}
+		env = env->next;
 	}
+	ft_lstadd_front(&main->env, ft_lstnew(arg));
+	return (0);
+}
+
+static int	arg_val_checker(char *arg)
+{
+	int		i;
+	int		ret;
+	char	*key;
+
+	ret = 0;
+	i = 0;
+	if (arg[0] != '_' && !ft_isalpha(arg[0]))
+		return (print_error("export", arg, "not a valid identifier"));
+	while (arg[++i])
+		if (!ft_isascii(arg[i]))
+			return (print_error("export", arg, "not a valid identifier"));
 	key = ft_detect_key(arg);
-	if (*key)
-		if (key_val_checker(key))
+	if (key != NULL)
+	{
+		ret = key_val_checker(key);
+		free(key);
+	}
+	return (ret);
+}
+
+int	rewrite_arg_to_key(t_main *main, char *arg, char *key)
+{
+	t_list	*env;
+
+	env = main->env;
+	while (env)
+	{
+		if (!ft_strchr(env->content, '=') && !ft_strcmp(env->content, key))
+		{
+			env->content = arg;
 			return (1);
-	free(key);
-	return (flag);
+		}	
+		env = env->next;
+	}
+	return (0);
 }
 
 int	arg_export(t_main *main, char *arg)
 {
-	int		i;
-	int		size;
 	char	*key;
 	t_list	*tmp;
 
-	i = 0;
 	tmp = main->env;
-	size = ft_lstsize(tmp);
-	if (arg_val_checker(main, arg))
+	if (!arg)
+		return (1);
+	if (arg_val_checker(arg))
 		return (1);
 	key = ft_detect_key(arg);
-	if (ft_change_env(key, arg, main))
+	if (key != NULL)
+	{
+		if (rewrite_key(key, arg, main) || rewrite_arg_to_key(main, arg, key))
+		{
+			free(key);
+			return (0);
+		}
+		free(key);
+		ft_lstadd_front(&main->env, ft_lstnew(arg));
+	}
+	if (no_key_exp(main, arg))
 		return (1);
-	ft_lstadd_front(&main->env, ft_lstnew(arg));
 	return (0);
 }

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/10/02 18:00:19 by qsergean         ###   ########.fr       */
-=======
-/*   Updated: 2022/09/30 11:54:23 by urycherd         ###   ########.fr       */
->>>>>>> 1d2f7e7a964a7116c66dc10ebd57a58544d29494
+/*   Updated: 2022/10/03 21:59:08 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +59,7 @@ typedef struct s_lexem
 typedef struct s_command
 {
 	char	**args;
+	t_redir	*redir;
 	int		file_open;
 	int		file_close;
 }	t_command;
@@ -91,6 +88,7 @@ void	deal_with_signals(void);
 
 int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
+void	handle_expansions(t_main **main);
 
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c, int flag);
@@ -111,5 +109,7 @@ int		arg_export(t_main *main, char *arg);
 int		ft_change_env(char *key, char *path, t_main *main);
 char	**lst_to_arr_str(t_list *env, int size);
 
+void	print_lexems(t_main **main);
+void	print_parsed(t_main **main);
 
 #endif

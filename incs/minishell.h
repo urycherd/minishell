@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/09/30 11:54:23 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/02 17:09:31 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
+int		print_error(char *cmd, char *arg, char *error_name);
 
 int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
@@ -99,7 +100,7 @@ int		ft_pwd(void);
 //sup functions for builtin
 char	*ft_detect_key(char *str);
 int		arg_export(t_main *main, char *arg);
-int		ft_change_env(char *key, char *path, t_main *main);
+int		ft_rewrite_env(char *key, char *path, t_main *main);
 char	**lst_to_arr_str(t_list *env, int size);
 
 

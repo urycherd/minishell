@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:07:28 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/29 23:25:15 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 11:35:00 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,17 @@ static void	print_export(char **massive, int size)
 	y = 0;
 	while (y < size)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		key = ft_detect_key(massive[y]);
-		if (key)
+		if (!ft_strchr(massive[y], '='))
+			key = strdup(massive[y]);
+		else
+			key = ft_detect_key(massive[y]);
+		if (key != NULL)
 		{
+			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(key, 1);
 			if (ft_strchr(massive[y], '='))
 			{
-				write(1, "=\"", 1);
+				ft_putstr_fd("=\"", 1);
 				ft_putstr_fd((massive[y] + ft_strlen(key)) + 1, 1);
 				write(1, "\"", 1);
 			}
@@ -87,6 +90,8 @@ static int	sort_env(t_list *env)
 	i = -1;
 	size = ft_lstsize(env);
 	exp = lst_to_arr_str(env, size);
+	if (!exp)
+		return (1);
 	print_export(exp, size);
 	free(exp);
 	return (0);
@@ -102,8 +107,7 @@ int	ft_export(t_main **main, char **arg)
 	else
 	{
 		while (arg[++i])
-			if (arg_export(*main, arg[i]) != 0)
-				return (1);
+			arg_export(*main, arg[i]);
 		return (0);
 	}
 }

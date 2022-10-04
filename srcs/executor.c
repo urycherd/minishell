@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 21:23:36 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/04 17:23:29 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:32:20 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ int	executor(t_main *main)
 			if (ft_excv(main, args))
 				return (0);
 		}
+		// else
+		// 	if (ft_pipex())
+		// 		return (1);
 		cmd = cmd->next;
+	}
 	
 	return (0);
 }

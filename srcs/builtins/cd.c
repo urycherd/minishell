@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/03 20:45:29 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:41:53 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,7 @@ int	ft_cd(t_main *main, char **args)
 		ft_lstadd_front(&main->env, ft_lstnew("PWD="));
 		current_pwd_to_key(main, "PWD");
 	}
-	if (args && !(args[1]))
-		return (0);
-	if (ft_strcmp(args[1], "~") == 0
+	if (!(args[1]) || ft_strcmp(args[1], "~") == 0
 		|| ft_strcmp(args[1], "--") == 0)
 		return (cd_to_arg(main, getenv("HOME")));
 	if (ft_strcmp(args[1], "-") == 0)

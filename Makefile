@@ -1,22 +1,10 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/08/08 18:36:28 by qsergean          #+#    #+#              #
-#    Updated: 2022/10/04 16:43:37 by urycherd         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 NAME			=	minishell
 
 SRCSDIR			=	./srcs
 
 OBJSDIR			=	./objs
 
-SRCS			=	minishell.c	signals.c lexer.c utils.c executor.c executer_bin.c\
+SRCS			=	minishell.c	signals.c lexer.c utils.c executor.c executer_bin.c expansions.c\
 					builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c\
 					builtins/export_arg.c builtins/export.c builtins/pwd.c builtins/unset.c
 

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/04 17:13:40 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:23:37 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_lexem
 typedef struct s_command
 {
 	char	**args;
+	t_redir	*redir;
 	int		file_open;
 	int		file_close;
 }	t_command;
@@ -86,6 +87,7 @@ void	deal_with_signals(void);
 
 int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
+void	handle_expansions(t_main **main);
 int		executor(t_main *main);
 int		ft_excv(t_main *main, char	**cmd_args);
 
@@ -112,5 +114,7 @@ int		arg_export(t_main *main, char *arg);
 int		rewrite_key(char *key, char *path, t_main *main);
 char	**lst_to_arr_str(t_list *env, int size);
 
+void	print_lexems(t_main **main);
+void	print_parsed(t_main **main);
 
 #endif

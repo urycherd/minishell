@@ -6,7 +6,7 @@
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:42:06 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/02 16:53:40 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/03 19:20:50 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ static void	deal_with_word(char *input, int *i, t_lexem **content)
 	j = 0;
 	while (input[*i] != ' ' && input[*i] != '\n'
 		&& input[*i] != '\0' && input[*i] != '$'
-		&& input[*i] != '\'' && input[*i] != '\'' // почему тут два раза??
+		&& input[*i] != '\'' && input[*i] != '\"'
 		&& input[*i] != '|')
 	{
 		// if (input[*i] == '\"' || input[*i] == '\'')
@@ -191,6 +191,8 @@ int	lexer(t_main **main, char *input)
 			deal_with_dollar(input, &i, &content);
 		else
 			deal_with_word(input, &i, &content);
+		if (content->len == 0)
+			continue ;
 		new_lexem = ft_lstnew((void *)content);
 		if (new_lexem == NULL)
 			exit(EXIT_FAILURE);

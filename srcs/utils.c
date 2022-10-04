@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:44:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/04 17:13:52 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:23:26 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,4 +117,48 @@ void	make_env_list(t_main **main, char **envp)
 			exit(EXIT_FAILURE);
 		ft_lstadd_back(&(*main)->env, iter);
 	}
+}
+
+void	print_lexems(t_main **main)
+{
+	t_list		*iter;
+	t_lexem		*tmp;
+
+	iter = (*main)->lexems;
+	printf("\n**************\n");
+	printf("{tok, len, str}\n");
+	while (iter)
+	{
+		tmp = iter->content;
+		printf("[%u, %d, %s]\n", tmp->token, tmp->len, tmp->str);
+		iter = iter->next;
+	}
+	printf("**************\n\n");
+}
+
+void	print_parsed(t_main **main)
+{
+	t_list		*iter;
+	t_command	*cmd;
+	int			i;
+	int			j;
+
+	printf("\n**************\n");
+	iter = (*main)->commands;
+	j = 1;
+	while (iter)
+	{
+		printf("Group number %d:\n", j);
+		cmd = iter->content;
+		i = 0;
+		while (cmd->args[i])
+		{
+			printf("%s ", (cmd->args)[i]);
+			i++;
+		}
+		iter = iter->next;
+		j++;
+		printf("\n");
+	}
+	printf("**************\n\n");
 }

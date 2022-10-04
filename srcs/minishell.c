@@ -3,71 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 23:34:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/03 21:47:06 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/03 22:17:20 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../incs/minishell.h"
-
-int	get_num_of_args(t_list *lexem)
-{
-	int	i;
-	t_list	*iter;
-
-	i = 0;
-	iter = lexem;
-	while (iter)
-	{
-		if ((((t_lexem *)(iter)->content))->token == TOKEN_DQUOTE
-			|| ((t_lexem *)(iter->content))->token == TOKEN_WORD)
-			i++;
-		else if (((t_lexem *)(iter->content))->token == TOKEN_PIPE)
-			break ;
-		iter = iter->next;
-	}
-	return (i);
-}
-
-void	ft_lstadd_after(t_list **node, t_list **new)
-{
-	t_list	*tmp;
-
-	if (*node == NULL || *new == NULL)
-		return ;
-	tmp = (*node)->next;
-	(*node)->next = *new;
-	(*new)->next = tmp; 
-}
-
-t_list	*ft_lstdel_smart(t_list **list, t_list *node)
-{
-	t_list	*iter;
-	t_list	*tmp;
-
-	iter = (*list);
-	if (iter == node)
-	{
-		tmp = *list;
-		*list = (*list)->next;
-		ft_lstdelone(tmp, free);
-		return (*list);
-	}
-	else
-	{
-		while (iter)
-		{
-			if (iter->next == node)
-				break;
-			iter = iter->next;
-		}
-		iter->next = node->next;
-		ft_lstdelone(node, free);
-		return (iter);
-	}
-}
 
 void	fill_cmd_content(int size, t_command *content, t_list **iter_lexem)
 {
@@ -80,71 +23,12 @@ void	fill_cmd_content(int size, t_command *content, t_list **iter_lexem)
 	while (++i < size && *iter_lexem)
 	{
 		while (((t_lexem *)((*iter_lexem)->content))->token == TOKEN_SEP) // это ерунда, тут нужно умнее сделать
-			(*iter_lexem) = (*iter_lexem)->next;
+			*iter_lexem = (*iter_lexem)->next;
 		(content->args)[i] = ft_strdup(((t_lexem *)((*iter_lexem)->content))->str);
 		*iter_lexem = (*iter_lexem)->next;
 	}
 	(content->args)[i] = NULL;
-}
-
-void	deal_with_word_light(char *input, int *i, t_lexem **content)
-{
-	int	j;
-
-	(*content)->len = get_word_len(input, *i, ' ', 0);
-	(*content)->str = (char *)malloc(sizeof(char)
-			* (get_word_len(input, *i, '\0', 1) + 1));
-	if ((*content)->str == NULL)
-		exit(EXIT_FAILURE);
-	j = 0;
-	while (input[*i] != '\n' && input[*i] != '\0' 
-		&& input[*i] != '$')
-	{
-		(*content)->str[j] = input[*i];
-		j++;
-		*i += 1;
-	}
-	(*content)->str[j] = '\0';
-	(*content)->token = TOKEN_WORD;
-}
-
-void	handle_expansions(t_main **main)
-{
-	t_list	*lexem;
-	t_list	*new_lexem;
-	t_list	*save;
-	t_lexem	*content;
-	char	*str;
-	int		i;
-
-	lexem = (*main)->lexems;
-	while (lexem)
-	{
-		if (((t_lexem *)(lexem->content))->token == TOKEN_DQUOTE)
-		{
-			save = lexem;
-			str = *(&((t_lexem *)(lexem->content))->str);
-			i = 0;
-			while (str && str[i])
-			{
-				content = (t_lexem *)malloc(sizeof(t_lexem));
-				if (content == NULL)
-					exit(EXIT_FAILURE);
-				if (str[i] == '$')
-					deal_with_dollar(str, &i, &content);
-				else if (str && str[i])
-					deal_with_word_light(str, &i, &content);
-				new_lexem = ft_lstnew(content);
-				if (new_lexem == NULL)
-					exit(EXIT_FAILURE);
-				ft_lstadd_after(&save, &new_lexem);
-				save = save->next;
-			}
-			ft_lstdel_smart(&(*main)->lexems, lexem);
-			lexem = save;
-		}
-		lexem = lexem->next;
-	}
+	content->redir = NULL;
 }
 
 void	join_lexems(t_main **main)
@@ -175,6 +59,24 @@ void	join_lexems(t_main **main)
 	}
 }
 
+int	get_num_of_args(t_list *lexem)
+{
+	int	i;
+	t_list	*iter;
+
+	i = 0;
+	iter = lexem;
+	while (iter)
+	{
+		if (((t_lexem *)(iter->content))->token == TOKEN_WORD)
+			i++;
+		else if (((t_lexem *)(iter->content))->token == TOKEN_PIPE)
+			break ;
+		iter = iter->next;
+	}
+	return (i);
+}
+
 void	parser(t_main **main)
 {
 	t_list		*new_command;
@@ -184,7 +86,6 @@ void	parser(t_main **main)
 
 	(*main)->commands = NULL;
 	iter_lexem = (*main)->lexems;
-	
 	// printf("%s\n", ((t_lexem *)(iter_lexem->content))->str);
 	while (iter_lexem)
 	{
@@ -216,49 +117,44 @@ void	parser(t_main **main)
 	}
 }
 
-void	print_lexems(t_main **main)
-{
-	t_list		*iter;
-	t_lexem		*tmp;
+// t_list	*get_lexem_wo_sep(t_list *lexem)
+// {
+// 	t_list	*lexem;
 
-	iter = (*main)->lexems;
-	printf("\n**************\n");
-	printf("{tok, len, str}\n");
-	while (iter)
-	{
-		tmp = iter->content;
-		printf("[%u, %d, %s]\n", tmp->token, tmp->len, tmp->str);
-		iter = iter->next;
-	}
-	printf("**************\n\n");
-}
+// 	lexem = (*main)->lexems;
+// 	while (lexem)
+// 	{
+// 		if (((t_lexem *)(lexem->content))->token == TOKEN_PIPE)
+// 		{
 
-void	print_parsed(t_main **main)
-{
-	t_list		*iter;
-	t_command	*cmd;
-	int			i;
-	int			j;
+// 		}
+// 	}
+// 	return (lexem);
+// }
 
-	printf("\n**************\n");
-	iter = (*main)->commands;
-	j = 1;
-	while (iter)
-	{
-		printf("Group number %d:\n", j);
-		cmd = iter->content;
-		i = 0;
-		while (cmd->args[i])
-		{
-			printf("%s ", (cmd->args)[i]);
-			i++;
-		}
-		iter = iter->next;
-		j++;
-		printf("\n");
-	}
-	printf("**************\n\n");
-}
+// int	check_lexems(t_main **main)
+// {
+// 	t_list	*lexem;
+// 	t_list	*next;
+
+// 	lexem = (*main)->lexems;
+// 	if (lexem == NULL)
+// 		return (EXIT_FAILURE);
+// 	next = lexem->next;
+// 	while (lexem && next)
+// 	{
+// 		if (((t_lexem *)(lexem->content))->token == TOKEN_PIPE
+// 			&& ((t_lexem *)(next->content))->token == TOKEN_PIPE)
+// 		{
+// 			printf("blyaaa pipes error\n");
+// 			ft_putendl_fd("parse error near |", STDERR_FILENO);
+// 			return (EXIT_FAILURE);
+// 		}
+// 		lexem = lexem->next;
+// 		next = lexem->next;
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -280,23 +176,26 @@ int	main(int argc, char **argv, char **envp)
 	while (main->exit_f == 0)
 	{
 		// rl_outstream = stderr;
-		// 1.readline part
 		input = readline("minish-1.0$ ");
 		if (input == NULL)
 		{
 			ft_putstr_fd("exit\n", 2);
 			exit(EXIT_SUCCESS);
 		}
-		// 2.lexer part
 		else if (input && *input)
 		{
 			if (lexer(&main, input) == EXIT_FAILURE)
 			{
 				free(input);
 				continue ;
-			} 
+			}
 			handle_expansions(&main);
 			join_lexems(&main);
+			// if (check_lexems(&main) == EXIT_FAILURE)
+			// {
+			// 	free(input);
+			// 	continue ;
+			// }
 			print_lexems(&main);
 			free(input);
 			parser(&main);

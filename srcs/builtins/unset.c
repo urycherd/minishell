@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:11 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/03 20:42:44 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:25:26 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,7 @@ static size_t	key_size(char *env)
 	return (i);
 }
 
-// static void	node_switch(t_list **env)
-// {
-// 	// t_list	*tmp;
-
-// 	// tmp = (*env)->next->next;
-// 	// // free(env);
-// 	// // ft_lstdelone((*env)->next, free); // attempting free on address which was not malloc()-ed:
-// 	// (*env)->next = tmp;
-// }
-
-void	ft_unset(t_main **main, char **arg)
+int	ft_unset(t_main **main, char **arg)
 {
 	t_list	*env;
 	int		i;
@@ -89,19 +79,18 @@ void	ft_unset(t_main **main, char **arg)
 			if (env->next)
 				(*main)->env = env->next;
 			free(env);
-			// ft_lstdelone(env, free); // attempting free on address which was not malloc()-ed:
-			return ;
+				return (1);
 		}
 		while (env && env->next)
 		{
 			if (ft_strncmp(arg[i], env->next->content, \
 			key_size(env->next->content)) == 0)
 			{
-				// node_switch(&env);
-				env->next = env->next->next; // почему не надо фришить узел??
-				return ;
+				env->next = env->next->next;
+				return (1);
 			}
 			env = env->next;
 		}
 	}
+	return (0);
 }

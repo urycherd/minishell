@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/03 21:54:40 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:13:40 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,22 @@ typedef struct s_main
 	int		ret;
 }	t_main;
 
-typedef struct s_info
+typedef struct s_ppx
 {
-	// t_builtin_ptr	builthes[7];
-	// char			builtin_names[7];
-	t_list			*env;
-	// t_list			envpp_list;
-	// char			envp_f;
-	// char			exit_f;
-	// int				status;
-}	t_info;
+	int		fd[2];
+	char	**cmd_paths;
+	char	**envp;
+	char	*path;
+	char	*cmd;
+	pid_t	pid;
+}	t_ppx;
 
 void	deal_with_signals(void);
 
 int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
 int		executor(t_main *main);
+int		ft_excv(t_main *main, char	**cmd_args);
 
 
 int		change_to_spaces_and_check_quotes(char **str);
@@ -95,13 +95,15 @@ int		get_word_len(char *str, int i, char c, int flag);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
 int		print_error(char *cmd, char *arg, char *error_name);
+int		print_error_nocmd(char *arg, char *error_name);
+
 
 int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
 int		ft_env(t_list *env, char **arg);
-void	ft_exit(t_main *main, char **arg);
+int		ft_exit(t_main *main, char **arg);
 int		ft_export(t_main **main, char **arg);
-void	ft_unset(t_main **main, char **arg);
+int		ft_unset(t_main **main, char **arg);
 int		ft_pwd(void);
 
 //sup functions for builtin

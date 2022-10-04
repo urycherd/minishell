@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 21:23:36 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/03 21:53:35 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:17:24 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,41 @@ int	take_your_builtin(t_main *main)
 
 	args = ((t_command *)(main->commands->content))->args;
 	if (!ft_strcmp(args[0], "cd"))
-		ft_cd(main, args);
+		return (ft_cd(main, args));
 	else if (!ft_strcmp(args[0], "echo"))
-		ft_echo(args);
+		return (ft_echo(args));
 	else if (!ft_strcmp(args[0], "env"))
-		ft_env(main->env, args);
+		return (ft_env(main->env, args));
 	else if (!ft_strcmp(args[0], "exit"))
-		ft_exit(main, args);
+		return (ft_exit(main, args));
 	else if (!ft_strcmp(args[0], "export"))
-		ft_export(&main, args);
+		return (ft_export(&main, args));
 	else if (!ft_strcmp(args[0], "pwd"))
-		ft_pwd();
+		return (ft_pwd());
 	else if (!ft_strcmp(args[0], "unset"))
-		ft_unset(&main, args);
-	return (0);
+		return (ft_unset(&main, args));
+	return (-1);
 }
 
 int	executor(t_main *main)
 {
-	take_your_builtin(main);
+	char	**args;
+	t_list	*cmd;
+
+	args = ((t_command *)(main->commands->content))->args;
+	cmd = main->commands;
+	while (cmd)
+	{
+		// check if redirect
+		// 		dup2
+		if (!main->commands->next)
+		{
+			if (take_your_builtin(main) >= 0)
+				return (0);
+			if (ft_excv(main, args))
+				return (0);
+		}
+		cmd = cmd->next;
+	}
 	return (0);
 }

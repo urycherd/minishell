@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:26:17 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/04 17:16:29 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/05 13:41:09 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ char	*make_cmd(char **paths, char *incmd)
 	return (NULL);
 }
 
-static void	bin_ex(char **cmd_args, t_ppx *ppx)
+static void	bin_ex(char **cmd_args, t_ppx *exv)
 {
-	ppx->pid = fork();
-	if (ppx->pid == -1)
+	exv->pid1 = fork();
+	if (exv->pid1 == -1)
 		ft_putstr_fd("Error: fork mistake", 2);
-	if (ppx->pid == 0)
+	if (exv->pid1 == 0)
 	{
-		execve(ppx->cmd, cmd_args, ppx->envp);
+		execve(exv->cmd, cmd_args, exv->envp);
 		ft_putstr_fd("Error: execve mistake", 2);
 		exit(1);
 	}
@@ -62,17 +62,17 @@ int	ft_excv(t_main *main, char	**cmd_args)
 {
 	t_list	*cmd;
 	t_list	*env;
-	t_ppx	ppx;
+	t_ppx	exv;
 
 	env = main->env;
 	cmd = main->commands;
-	ppx.envp = lst_to_arr_str(env, ft_lstsize(env));
-	ppx.path = define_path(ppx.envp);
-	ppx.cmd_paths = ft_split(ppx.path, ':');
-	ppx.cmd = make_cmd(ppx.cmd_paths, cmd_args[0]);
-	if (!ppx.cmd)
+	exv.envp = lst_to_arr_str(env, ft_lstsize(env));
+	exv.path = define_path(exv.envp);
+	exv.cmd_paths = ft_split(exv.path, ':');
+	exv.cmd = make_cmd(exv.cmd_paths, cmd_args[0]);
+	if (!exv.cmd)
 		return (print_error_nocmd(cmd_args[0], "command not found"));
-	bin_ex(cmd_args, &ppx);
-	waitpid(ppx.pid, NULL, 0);
+	bin_ex(cmd_args, &exv);
+	waitpid(exv.pid1, NULL, 0);
 	return (0);
 }

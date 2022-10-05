@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/04 17:23:37 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/05 13:41:21 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,12 @@ typedef struct s_ppx
 	char	**envp;
 	char	*path;
 	char	*cmd;
-	pid_t	pid;
+	pid_t	pid1;
+	pid_t	pid2;
+	// char	**argv;
+	// int		file1;
+	// int		file2;
+	// char	**cmd_args;
 }	t_ppx;
 
 void	deal_with_signals(void);

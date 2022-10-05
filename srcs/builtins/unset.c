@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:11 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/04 12:25:26 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/05 20:05:42 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,32 +65,36 @@ static size_t	key_size(char *env)
 	return (i);
 }
 
+static int	unsetting(t_main **main, char *arg, t_list *env)
+{
+	if (ft_strncmp(arg, env->content, key_size(env->content)) == 0)
+	{
+		if (env->next)
+			(*main)->env = env->next;
+		free(env);
+		return (1);
+	}
+	while (env && env->next)
+	{
+		if (ft_strncmp(arg, env->next->content, \
+		key_size(env->next->content)) == 0)
+		{
+			env->next = env->next->next;
+			return (1);
+		}
+		env = env->next;
+	}
+	return (0);
+}
+
 int	ft_unset(t_main **main, char **arg)
 {
-	t_list	*env;
 	int		i;
 
 	i = 0;
-	env = (*main)->env;
 	while (arg[++i])
 	{
-		if (ft_strncmp(arg[i], env->content, key_size(env->content)) == 0)
-		{
-			if (env->next)
-				(*main)->env = env->next;
-			free(env);
-				return (1);
-		}
-		while (env && env->next)
-		{
-			if (ft_strncmp(arg[i], env->next->content, \
-			key_size(env->next->content)) == 0)
-			{
-				env->next = env->next->next;
-				return (1);
-			}
-			env = env->next;
-		}
+		unsetting(main, arg[i], (*main)->env);
 	}
 	return (0);
 }

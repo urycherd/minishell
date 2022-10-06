@@ -70,6 +70,9 @@ int	ft_excv(t_main *main, char	**cmd_args)
 	exv.path = define_path(exv.envp);
 	exv.cmd_paths = ft_split(exv.path, ':');
 	exv.cmd = make_cmd(exv.cmd_paths, cmd_args[0]);
+	ft_putendl_fd(cmd_args[0], 2);
+	// ft_putendl_fd(, 2);
+	// ft_putendl_fd(, 2);
 	if (!exv.cmd)
 		return (print_error_nocmd(cmd_args[0], "command not found"));
 	bin_ex(cmd_args, &exv);

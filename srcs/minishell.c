@@ -203,7 +203,9 @@ int	main(int argc, char **argv, char **envp)
 		}
 		// 4.executor part
 		executor(main);
+		write(2, "tot\n", 4);
 		// вообще надо создать нечто а-ля пайпекс с бонусами и положить в него проверку на билин или нет для случая с папами
+		write(2, "okk\n", 4);
 	}
 	return (main->ret);
 }

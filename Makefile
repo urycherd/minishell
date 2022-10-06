@@ -21,10 +21,12 @@ LIBR			=	ranlib
 
 CC				=	cc
 
-CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS			=	-Wall -Wextra -fsanitize=address -g\
+					-I/usr/local/Cellar/readline/8.1.2/include\
+					-L/usr/local/Cellar/readline/8.1.2/lib
 
 RFLAGS			=	-lreadline\
-					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include\
+					-lreadline\
 					-ltermcap
 
 RM				=	rm -rf

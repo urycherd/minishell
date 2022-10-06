@@ -12,11 +12,8 @@
 
 #include "../incs/minishell.h"
 
-int	take_your_builtin(t_main *main)
+int	take_your_builtin(t_main *main, char **args)
 {
-	char	**args;
-
-	args = ((t_command *)(main->commands->content))->args;
 	if (!ft_strcmp(args[0], "cd"))
 		return (ft_cd(main, args));
 	else if (!ft_strcmp(args[0], "echo"))
@@ -34,56 +31,35 @@ int	take_your_builtin(t_main *main)
 	return (-1);
 }
 
-int	ft_pipex(t_main *main, char **args)
+int	rec_ex(t_main *main, t_list *cmd, int true_fd)
 {
-	// t_cmd	*tmp;
-	// t_cmd	*prev;
-	// int		fd1[2];
-	// int		fd_tmp;
-
-	t_list	*cmd;
 	t_ppx	ppx;
+	char	**args;
 
-	cmd = main->commands;
-	while (cmd)
-	{
-		if (pipe(ppx.fd) == -1)
-			return (print_error_nocmd(args[0], "pipe doesn't work"));
-		dup2(ppx.fd[1], 1); // меняем запись вместо stdout (вывод) в pipe
-		close(ppx.fd[0]); // закрываю на чтение
-		if (take_your_builtin(main) < 0)
-			ft_excv(main, args);
-		// dup2(ppx->file1, 0); // меняем чтение из фйал вместо stdin (ввод)
-
-		dup2(ppx.fd[0], 0); // меняем чтение вместо stdin (ввод) в pipe
-		close(ppx.fd[1]); // закрываю на запись
-		// dup2(ppx->file2, 1); // меняем запись в фйал вместо stdout (вывод)
-		cmd = cmd->next;
-	}
-
-	// tmp = main->commands;
-	// prev = NULL;
-	// while (tmp != NULL)
-	// {
-	// 	if (pipe(fd1) == -1)
-	// 		ft_error("Error: pipe problems");
-	// 	if (prev == NULL)
-	// 		exec_first_cmd(*env, tmp, fd1);
-	// 	else if (((t_list *)tmp)->next == NULL)
-	// 		exec_last_cmd(*env, tmp);
-	// 	else
-	// 		exec_middle_cmd(*env, tmp);
-	// 	prev = tmp;
-	// 	tmp = tmp->next;
-	// }
-
-	return (0);
+	args = ((t_command *)(cmd->content))->args;
+	if (pipe(ppx.fd) == -1)
+		return (print_error_nocmd(NULL, "pipe doesn't work"));
+	// close(ppx.fd[0]); 
+	if (cmd->next)
+		ft_putnbr_fd(dup2(ppx.fd[1], 1), 2); // меняем запись вместо stdout (вывод) в pipe
+	else
+		dup2(true_fd, 1);
+	if (take_your_builtin(main, args) < 0)
+			if (ft_excv(main, args))
+				return (1);
+	write(2, "lol\n", 4);
+	if (!cmd->next)
+		return (0);
+	close(ppx.fd[1]); // закрываю на запись
+	ft_putnbr_fd(dup2(ppx.fd[0], 0), 2); // меняем чтение вместо stdin (ввод) в pipe
+	return (rec_ex(main, cmd->next, true_fd));
 }
 
 int	executor(t_main *main)
 {
 	char	**args;
 	t_list	*cmd;
+	int		true_fd;
 
 	args = ((t_command *)(main->commands->content))->args;
 	cmd = main->commands;
@@ -91,13 +67,16 @@ int	executor(t_main *main)
 	// 		dup2
 	if (cmd && !cmd->next) // for 1 param
 	{
-		if (take_your_builtin(main) >= 0)
+		if (take_your_builtin(main, args) >= 0)
 			return (0);
 		if (ft_excv(main, args))
 			return (0);
 	}
-	// else
-	// 	if (ft_pipex())
-	// 		return (1);
+	else
+	{
+		true_fd = dup(1);
+		if (rec_ex(main, cmd, true_fd))
+			return (1);
+	}
 	return (0);
 }

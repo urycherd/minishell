@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:05 by urycherd          #+#    #+#             */
-/*   Updated: 2022/09/30 12:42:13 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 12:24:59 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ static int	ft_strisnum(char *str)
 	return (1);
 }
 
-void	ft_exit(t_main *main, char **arg)
+int	ft_exit(t_main *main, char **arg)
 {
 	ft_putendl_fd(arg[0], 2);
 	if (arg[1] && arg[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", 2);
-		return ;
+		return (1);
 	}
 	main->exit_f = 1;
 	if (arg[1] && ft_strisnum(arg[1]) == 0)
@@ -76,4 +76,6 @@ void	ft_exit(t_main *main, char **arg)
 		main->ret = ft_atou(arg[1]) % 256;
 	else
 		main->ret = 0;
+	return (0);
 }
+// если без параметров - сбрасывает последнюю ошибку

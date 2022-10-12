@@ -6,15 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/10/02 17:09:31 by urycherd         ###   ########.fr       */
-=======
-<<<<<<< HEAD
-/*   Updated: 2022/10/02 18:00:19 by qsergean         ###   ########.fr       */
-=======
-/*   Updated: 2022/09/30 11:54:23 by urycherd         ###   ########.fr       */
->>>>>>> 1d2f7e7a964a7116c66dc10ebd57a58544d29494
->>>>>>> 7359c11176d4c838743c789590eaf1ba9bf277a6
+/*   Updated: 2022/10/11 23:37:04 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +16,10 @@
 # include "libft.h"
 # include <stdio.h>
 # include <signal.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
+# include <fcntl.h>
 # include <curses.h>
 # include <term.h>
 
@@ -38,7 +31,7 @@
 enum e_tokens
 {
 	TOKEN_SEP,
-	TOKEN_NEWLINE,
+	TOKEN_NEWLINE, // это ваще надо?
 	TOKEN_PIPE,
 	TOKEN_WORD,
 	TOKEN_DQUOTE,
@@ -46,14 +39,13 @@ enum e_tokens
 	TOKEN_OUT_REDIR_APPEND,
 	TOKEN_IN_REDIR,
 	TOKEN_HEREDOC,
-	// TOKEN_ENV,
 	// TOKEN_L_BRACKET,
 	// TOKEN_R_BRACKET
 };
 
 typedef struct s_redir
 {
-	char			*filename;
+	char			**filename;
 	enum e_tokens	token;
 }	t_redir;
 
@@ -67,6 +59,7 @@ typedef struct s_lexem
 typedef struct s_command
 {
 	char	**args;
+	t_list	*redir;
 	int		file_open;
 	int		file_close;
 }	t_command;
@@ -80,41 +73,53 @@ typedef struct s_main
 	int		ret;
 }	t_main;
 
-typedef struct s_info
+typedef struct s_ppx
 {
-	// t_builtin_ptr	builthes[7];
-	// char			builtin_names[7];
-	t_list			*env;
-	// t_list			envpp_list;
-	// char			envp_f;
-	// char			exit_f;
-	// int				status;
-}	t_info;
+	int		fd[2];
+	char	**cmd_paths;
+	char	**envp;
+	char	*path;
+	char	*cmd;
+	pid_t	pid1;
+	pid_t	pid2;
+	// char	**argv;
+	// int		file1;
+	// int		file2;
+	// char	**cmd_args;
+}	t_ppx;
 
 void	deal_with_signals(void);
 
 int		lexer(t_main **main, char *input);
 void	deal_with_dollar(char *input, int *i, t_lexem **content);
+void	handle_expansions(t_main **main);
+int		executor(t_main *main);
+int		ft_excv(t_main *main, char	**cmd_args, t_list	*next);
+int		deal_heredoc(t_redir *redir, int i);
+void	dup_close(int fd_old, int fd_new);
 
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c, int flag);
 void	make_env_list(t_main **main, char **envp);
 char	*ft_strjoin_mod(char *s1, char *s2);
 int		print_error(char *cmd, char *arg, char *error_name);
+int		print_error_nocmd(char *arg, char *error_name);
 
 int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
-int		ft_env(t_list *env);
-void	ft_exit(t_main *main, char **arg);
+int		ft_env(t_list *env, char **arg);
+int		ft_exit(t_main *main, char **arg);
 int		ft_export(t_main **main, char **arg);
-void	ft_unset(t_main **main, char **arg);
+int		ft_unset(t_main **main, char **arg);
 int		ft_pwd(void);
 
 //sup functions for builtin
 char	*ft_detect_key(char *str);
 int		arg_export(t_main *main, char *arg);
-int		ft_rewrite_env(char *key, char *path, t_main *main);
+int		rewrite_key(char *key, char *path, t_main *main);
 char	**lst_to_arr_str(t_list *env, int size);
 
+void	print_lexems(t_main **main);
+void	print_parsed(t_main **main);
 
 #endif

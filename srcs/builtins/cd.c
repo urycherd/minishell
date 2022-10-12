@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/03 11:34:09 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/04 17:41:53 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	make_new_key(t_main *main, char *key, char	*path)
 	else if (ft_strcmp(key, "PWD") == 0)
 	{
 		ft_lstadd_front(&main->env, ft_lstnew(key));
-		if (ft_rewrite_env(key, path, main))
+		if (rewrite_key(key, path, main))
 			return (1);
 	}
 	return (0);
@@ -32,12 +32,12 @@ int	current_pwd_to_key(t_main *main, char *key)
 	t_list	*tmp;
 
 	tmp = main->env;
-	if (getcwd(cwd, MAX_PATH) == NULL || !key)
+	if (!key || getcwd(cwd, MAX_PATH) == NULL)
 		return (1);
 	path = ft_strjoin_mod(ft_strjoin(key, "="), cwd);
 	if (!(path))
 		return (1);
-	if (ft_rewrite_env(key, path, main))
+	if (rewrite_key(key, path, main))
 		return (1);
 	free(path);
 	return (0);
@@ -80,10 +80,10 @@ int	check_key_exist(t_main *main, char *str)
 int	ft_cd(t_main *main, char **args)
 {
 	if (check_key_exist(main, "OLDPWD"))
-		ft_lstadd_front(&main->env, ft_lstnew("OLDPWD"));
+		ft_lstadd_front(&main->env, ft_lstnew("OLDPWD="));
 	if (check_key_exist(main, "PWD"))
 	{
-		ft_lstadd_front(&main->env, ft_lstnew("PWD"));
+		ft_lstadd_front(&main->env, ft_lstnew("PWD="));
 		current_pwd_to_key(main, "PWD");
 	}
 	if (!(args[1]) || ft_strcmp(args[1], "~") == 0
@@ -92,8 +92,6 @@ int	ft_cd(t_main *main, char **args)
 	if (ft_strcmp(args[1], "-") == 0)
 		return (cd_to_arg(main, getenv("OLDPWD")));
 	return (cd_to_arg(main, args[1]));
-	if (!(args[1]))
-		return (0);
 	return (0);
 }
 

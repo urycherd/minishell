@@ -5,7 +5,7 @@ SRCSDIR			=	./srcs
 OBJSDIR			=	./objs
 
 SRCS			=	minishell.c	signals.c lexer.c utils.c executor.c executer_bin.c expansions.c\
-					builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c\
+					builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c heredoc.c\
 					builtins/export_arg.c builtins/export.c builtins/pwd.c builtins/unset.c
 
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
@@ -21,12 +21,10 @@ LIBR			=	ranlib
 
 CC				=	cc
 
-CFLAGS			=	-Wall -Wextra -fsanitize=address -g\
-					-I/usr/local/Cellar/readline/8.1.2/include\
-					-L/usr/local/Cellar/readline/8.1.2/lib
+CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g
 
 RFLAGS			=	-lreadline\
-					-lreadline\
+					-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include\
 					-ltermcap
 
 RM				=	rm -rf

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 19:44:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/04 17:23:26 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/13 20:14:16 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strjoin_mod(char *s1, char *s2)
 	}
 	while (i - len1 < len2)
 	{
-		res[i] = s2 [i - len1];
+		res[i] = s2[i - len1];
 		i++;
 	}
 	res[i] = '\0';
@@ -82,14 +82,7 @@ int	get_word_len(char *str, int i, char c, int flag)
 {
 	int		res;
 	char	extra;
-	// char	opp;
 
-	// if (c == '\'')
-	// 	opp = '\"';
-	// else if (c == '\"')
-	// 	opp = '\'';
-	// else
-	// 	opp = '\0';
 	extra = '\0';
 	if (c == ' ' || flag == 1)
 		extra = '$';
@@ -97,7 +90,6 @@ int	get_word_len(char *str, int i, char c, int flag)
 	while (str[i + res] && str[i + res] != c
 		&& str[i] != '\n' && str[i] != '|' && str[i] != extra)
 		res++;
-	// printf ("c = %c, len = %d\n", c, res);
 	return (res);
 }
 
@@ -117,6 +109,65 @@ void	make_env_list(t_main **main, char **envp)
 			exit(EXIT_FAILURE);
 		ft_lstadd_back(&(*main)->env, iter);
 	}
+}
+
+char	*get_env_name(char *full)
+{
+	int		len;
+	int		i;
+	char	*res;
+
+	len = 0;
+	while (full && full[len] && full[len] != '=')
+		len++;
+	res = malloc(sizeof(char) * (len + 1));
+	if (res == NULL)
+		exit(EXIT_FAILURE);
+	i = 0;
+	while (i < len)
+	{
+		res[i] = full[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
+char	*ft_getenv(t_list *env, char *request)
+{
+	// char	*str;
+	size_t	len;
+	char	*name;
+
+	// if (env)
+		// str = (char *)(env->content);
+	len = ft_strlen(request);
+	while (env)
+	{
+		name = get_env_name(env->content);
+		if (ft_strlen(name) == len)
+		{
+			if (ft_strncmp(request, name, len) == 0)
+			{
+				free(name);
+				return (env->content + len + 1);
+			}
+		}
+		free(name);
+		env = env->next;
+	}
+	return (NULL);
+	// while (env && str && ft_strnstr(request, str, len))
+	// {
+	// 	env = env->next;
+	// 	if (env)
+	// 		str = (char *)(env->content);
+	// }
+	// if (str == NULL)
+	// 	return (NULL);
+
+	// free(name);
+	// return (str + len + 1);
 }
 
 void	print_lexems(t_main **main)
@@ -139,11 +190,12 @@ void	print_lexems(t_main **main)
 void	print_parsed(t_main **main)
 {
 	t_list		*iter;
+	t_list		*i_redir;
 	t_command	*cmd;
 	int			i;
 	int			j;
 
-	printf("\n**************\n");
+	printf("**************\n");
 	iter = (*main)->commands;
 	j = 1;
 	while (iter)
@@ -151,10 +203,24 @@ void	print_parsed(t_main **main)
 		printf("Group number %d:\n", j);
 		cmd = iter->content;
 		i = 0;
-		while (cmd->args[i])
+		while (cmd->args && cmd->args[i])
 		{
 			printf("%s ", (cmd->args)[i]);
 			i++;
+		}
+		i_redir = cmd->redir;
+		while (i_redir)
+		{
+			printf("    //redirect type: %d, filename:",
+				((t_redir *)(i_redir->content))->token);
+			i = 0;
+			while (((t_redir *)(i_redir->content))->filename[i])
+			{
+				printf(" %s",
+					((t_redir *)(i_redir->content))->filename[i]);
+				i++;
+			}
+			i_redir = i_redir->next;
 		}
 		iter = iter->next;
 		j++;

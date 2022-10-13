@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
+/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:56:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/03 20:58:35 by qsergean         ###   ########.fr       */
+/*   Updated: 2022/10/13 21:10:42 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_lstadd_after(t_list **node, t_list **new)
 		return ;
 	tmp = (*node)->next;
 	(*node)->next = *new;
-	(*new)->next = tmp; 
+	(*new)->next = tmp;
 }
 
 static t_list	*ft_lstdel_smart(t_list **list, t_list *node)
@@ -41,7 +41,7 @@ static t_list	*ft_lstdel_smart(t_list **list, t_list *node)
 		while (iter)
 		{
 			if (iter->next == node)
-				break;
+				break ;
 			iter = iter->next;
 		}
 		iter->next = node->next;
@@ -60,7 +60,7 @@ static void	deal_with_word_light(char *input, int *i, t_lexem **content)
 	if ((*content)->str == NULL)
 		exit(EXIT_FAILURE);
 	j = 0;
-	while (input[*i] != '\n' && input[*i] != '\0' 
+	while (input[*i] != '\n' && input[*i] != '\0'
 		&& input[*i] != '$')
 	{
 		(*content)->str[j] = input[*i];
@@ -71,14 +71,36 @@ static void	deal_with_word_light(char *input, int *i, t_lexem **content)
 	(*content)->token = TOKEN_WORD;
 }
 
+void	handle_expansions_body(t_main *main, char *str, t_lexem **content,
+	t_list **save)
+{
+	int		i;
+	t_list	*new_lexem;
+
+	i = 0;
+	while (str && str[i])
+	{
+		*content = (t_lexem *)malloc(sizeof(t_lexem));
+		if (*content == NULL)
+			exit(EXIT_FAILURE);
+		if (str[i] == '$')
+			deal_with_dollar(main, str, &i, content);
+		else if (str && str[i])
+			deal_with_word_light(str, &i, content);
+		new_lexem = ft_lstnew(*content);
+		if (new_lexem == NULL)
+			exit(EXIT_FAILURE);
+		ft_lstadd_after(save, &new_lexem);
+		*save = (*save)->next;
+	}
+}
+
 void	handle_expansions(t_main **main)
 {
 	t_list	*lexem;
-	t_list	*new_lexem;
 	t_list	*save;
 	t_lexem	*content;
 	char	*str;
-	int		i;
 
 	lexem = (*main)->lexems;
 	while (lexem)
@@ -86,23 +108,8 @@ void	handle_expansions(t_main **main)
 		if (((t_lexem *)(lexem->content))->token == TOKEN_DQUOTE)
 		{
 			save = lexem;
-			str = *(&((t_lexem *)(lexem->content))->str); // мне кажется, это кринж
-			i = 0;
-			while (str && str[i])
-			{
-				content = (t_lexem *)malloc(sizeof(t_lexem));
-				if (content == NULL)
-					exit(EXIT_FAILURE);
-				if (str[i] == '$')
-					deal_with_dollar(str, &i, &content);
-				else if (str && str[i])
-					deal_with_word_light(str, &i, &content);
-				new_lexem = ft_lstnew(content);
-				if (new_lexem == NULL)
-					exit(EXIT_FAILURE);
-				ft_lstadd_after(&save, &new_lexem);
-				save = save->next;
-			}
+			str = ((t_lexem *)(lexem->content))->str;
+			handle_expansions_body(*main, str, &content, &save);
 			ft_lstdel_smart(&(*main)->lexems, lexem);
 			lexem = save;
 		}

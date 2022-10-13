@@ -6,7 +6,7 @@ OBJSDIR			=	./objs
 
 SRCS			=	minishell.c	signals.c lexer.c utils.c executor.c executer_bin.c expansions.c\
 					builtins/cd.c builtins/echo.c builtins/env.c builtins/exit.c heredoc.c\
-					builtins/export_arg.c builtins/export.c builtins/pwd.c builtins/unset.c
+					builtins/export_arg.c builtins/export.c builtins/pwd.c builtins/unset.c executor_2.c
 
 OBJS			=	$(addprefix $(OBJSDIR)/,$(SRCS:.c=.o))
 

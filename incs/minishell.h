@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/11 23:37:04 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/13 22:14:50 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,20 @@ typedef struct s_ppx
 void	deal_with_signals(void);
 
 int		lexer(t_main **main, char *input);
-void	deal_with_dollar(char *input, int *i, t_lexem **content);
+void	deal_with_dollar(t_main *main, char *input, int *i, t_lexem **content);
 void	handle_expansions(t_main **main);
 int		executor(t_main *main);
 int		ft_excv(t_main *main, char	**cmd_args, t_list	*next);
 int		deal_heredoc(t_redir *redir, int i);
 void	dup_close(int fd_old, int fd_new);
+int		check_redir(t_list *redir_list);
+int		take_your_builtin(t_main *main, char **args);
+void	close_fd(int	*orig_fd);
 
 int		change_to_spaces_and_check_quotes(char **str);
 int		get_word_len(char *str, int i, char c, int flag);
 void	make_env_list(t_main **main, char **envp);
+char	*ft_getenv(t_list *env, char *request);
 char	*ft_strjoin_mod(char *s1, char *s2);
 int		print_error(char *cmd, char *arg, char *error_name);
 int		print_error_nocmd(char *arg, char *error_name);

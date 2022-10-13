@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 13:26:17 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/05 13:41:09 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/13 21:10:22 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	print_error_nocmd(char *arg, char *error_name)
 	return (1);
 }
 
-static char	*define_path(char **envp)
+static char	*define_path(t_list *envp)
 {
-	while (ft_strncmp("PATH=", *envp, 5))
-		envp++;
-	if (*envp == 0)
+	while (envp && ft_strncmp("PATH=", (char *)(envp->content), 5))
+		envp = envp->next;
+	if (!envp)
 		return (NULL);
-	return (*envp + 5);
+	return ((char *)(envp->content) + 5);
 }
 
 char	*make_cmd(char **paths, char *incmd)
@@ -53,29 +53,36 @@ static void	bin_ex(char **cmd_args, t_ppx *exv)
 	if (exv->pid1 == 0)
 	{
 		execve(exv->cmd, cmd_args, exv->envp);
-		ft_putstr_fd("Error: execve mistake", 2);
+		print_error_nocmd(cmd_args[0], "command not found");
 		exit(1);
 	}
 }
 
-int	ft_excv(t_main *main, char	**cmd_args)
+int	ft_excv(t_main *main, char	**cmd_args, t_list	*next)
 {
-	t_list	*cmd;
 	t_list	*env;
 	t_ppx	exv;
 
 	env = main->env;
-	cmd = main->commands;
 	exv.envp = lst_to_arr_str(env, ft_lstsize(env));
-	exv.path = define_path(exv.envp);
-	exv.cmd_paths = ft_split(exv.path, ':');
-	exv.cmd = make_cmd(exv.cmd_paths, cmd_args[0]);
-	ft_putendl_fd(cmd_args[0], 2);
-	// ft_putendl_fd(, 2);
-	// ft_putendl_fd(, 2);
+	if (cmd_args == NULL)
+		return (0);
+	if (!ft_strncmp(cmd_args[0], "./", 2) || !ft_strncmp(cmd_args[0], "../", 3)
+		|| !ft_strncmp(cmd_args[0], "/bin/", 5) || cmd_args[0][0] == '/')
+		exv.cmd = ft_strdup(cmd_args[0]);
+	else
+	{
+		exv.path = define_path(env);
+		if (!exv.path)
+			return (print_error_nocmd(cmd_args[0],
+					"No such file or directory"));
+		exv.cmd_paths = ft_split(exv.path, ':');
+		exv.cmd = make_cmd(exv.cmd_paths, cmd_args[0]);
+	}	
 	if (!exv.cmd)
 		return (print_error_nocmd(cmd_args[0], "command not found"));
 	bin_ex(cmd_args, &exv);
-	waitpid(exv.pid1, NULL, 0);
+	if (next == NULL)
+		waitpid(exv.pid1, NULL, 0);
 	return (0);
 }

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/22 17:37:58 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
 
-int	ft_pwd(void)
+void	ft_putnbr_fd(int n, int fd)
 {
-	char	cwd[MAX_PATH];
+	unsigned int	nb;
 
-	if (getcwd(cwd, MAX_PATH))
+	if (n < 0)
 	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+		ft_putchar_fd('-', fd);
+		nb = (unsigned int)(n * -1);
 	}
-	return (1);
+	else
+		nb = (unsigned int)n;
+	if (nb >= 10)
+		ft_putnbr_fd(nb / 10, fd);
+	ft_putchar_fd((char)(nb % 10 + '0'), fd);
 }

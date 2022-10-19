@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/12 19:32:59 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
 
-int	ft_pwd(void)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
-	char	cwd[MAX_PATH];
+	size_t	ndllen;
 
-	if (getcwd(cwd, MAX_PATH))
-	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+	ndllen = ft_strlen(needle);
+	if (!ndllen)
+		return ((char *)haystack);
+	while (((len >= ndllen) && *haystack) || haystack == NULL)
+	{	
+		len--;
+		if (!ft_memcmp(haystack, needle, ndllen))
+			return ((char *)haystack);
+		haystack++;
 	}
-	return (1);
+	return (NULL);
 }

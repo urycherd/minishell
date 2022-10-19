@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/21 19:27:05 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
 
-int	ft_pwd(void)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char	cwd[MAX_PATH];
+	char	*res;
+	size_t	len;
+	size_t	i;
 
-	if (getcwd(cwd, MAX_PATH))
+	if (s == NULL)
+		return (NULL);
+	len = ft_strlen(s);
+	res = (char *)malloc(sizeof(char) * (len + 1));
+	if (res == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+		res[i] = f(i, s[i]);
+		i++;
 	}
-	return (1);
+	res[i] = '\0';
+	return (res);
 }

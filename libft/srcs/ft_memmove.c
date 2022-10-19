@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/09 16:32:41 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
 
-int	ft_pwd(void)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	cwd[MAX_PATH];
+	char		*d;
+	const char	*s;
 
-	if (getcwd(cwd, MAX_PATH))
+	d = dst;
+	s = src;
+	if (d < s)
 	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+		while (len--)
+			*d++ = *s++;
 	}
-	return (1);
+	else if (d > s)
+	{
+		while (len--)
+			*(d + len) = *(s + len);
+	}
+	return (dst);
 }

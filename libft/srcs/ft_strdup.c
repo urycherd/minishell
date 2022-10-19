@@ -1,25 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/16 20:14:12 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
+#include <sys/errno.h>
 
-int	ft_pwd(void)
+char	*ft_strdup(const char *s1)
 {
-	char	cwd[MAX_PATH];
+	char	*res;
+	char	*start;
+	size_t	len;
 
-	if (getcwd(cwd, MAX_PATH))
+	if (s1 == NULL)
+		return (NULL);
+	len = ft_strlen(s1);
+	res = (char *)malloc(sizeof(char) * (len + 1));
+	if (res == NULL)
 	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+		errno = ENOMEM;
+		return (NULL);
 	}
-	return (1);
+	start = res;
+	while (len--)
+	{
+		*res = *s1;
+		s1++;
+		res++;
+	}
+	*res = '\0';
+	return (start);
 }

@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:06:39 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/04 17:41:53 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/19 20:48:59 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,3 @@ int	ft_cd(t_main *main, char **args)
 	return (cd_to_arg(main, args[1]));
 	return (0);
 }
-
-// bash: cd: arg: error_msg

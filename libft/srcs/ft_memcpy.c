@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/08 17:19:37 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
 
-int	ft_pwd(void)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	char	cwd[MAX_PATH];
+	char		*d;
+	const char	*s;
 
-	if (getcwd(cwd, MAX_PATH))
-	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
-	}
-	return (1);
+	if (!dst && !src)
+		return (dst);
+	d = dst;
+	s = src;
+	while (n--)
+		*d++ = *s++;
+	return (dst);
 }

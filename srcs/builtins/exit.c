@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 11:08:05 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/04 12:24:59 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/14 20:23:09 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/minishell.h"
-
-// ее можно улучшить для этого надо использовать лонг лонг и после этого вписывать в результат от 0 до unsigned max
 
 unsigned int	ft_atou(char *str)
 {
@@ -78,4 +76,3 @@ int	ft_exit(t_main *main, char **arg)
 		main->ret = 0;
 	return (0);
 }
-// если без параметров - сбрасывает последнюю ошибку

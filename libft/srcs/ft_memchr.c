@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/12 18:31:17 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
 
-int	ft_pwd(void)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char	cwd[MAX_PATH];
+	char	*p;
 
-	if (getcwd(cwd, MAX_PATH))
+	p = (char *)s;
+	while (n--)
 	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+		if (*p == (char)c)
+			return (p);
+		p++;
 	}
-	return (1);
+	return (NULL);
 }

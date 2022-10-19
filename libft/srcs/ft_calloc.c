@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/16 17:04:23 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
+#include <sys/errno.h>
 
-int	ft_pwd(void)
+void	*ft_calloc(size_t count, size_t size)
 {
-	char	cwd[MAX_PATH];
+	void	*res;
 
-	if (getcwd(cwd, MAX_PATH))
+	if (count == 0 || size == 0)
 	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+		count = 1;
+		size = 1;
 	}
-	return (1);
+	res = (void *)malloc(count * size);
+	if (res == NULL)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	res = ft_bzero(res, count * size);
+	return (res);
 }

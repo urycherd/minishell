@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qsergean <qsergean@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/08 11:07:08 by urycherd          #+#    #+#             */
-/*   Updated: 2022/10/14 20:22:26 by qsergean         ###   ########.fr       */
+/*   Created: 2021/10/09 17:21:04 by qsergean          #+#    #+#             */
+/*   Updated: 2022/10/14 18:26:14 by qsergean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../incs/minishell.h" 
+#include "../../incs/libft.h"
 
-int	ft_pwd(void)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	char	cwd[MAX_PATH];
+	size_t	srclen;
+	size_t	i;
 
-	if (getcwd(cwd, MAX_PATH))
+	i = 0;
+	srclen = ft_strlen(src);
+	if (dstsize)
 	{
-		ft_putendl_fd(cwd, 1);
-		return (0);
+		while (i < dstsize - 1 && i < srclen)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
-	return (1);
+	return (srclen);
 }

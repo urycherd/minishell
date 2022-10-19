@@ -6,7 +6,7 @@
 /*   By: urycherd <urycherd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/14 22:43:57 by qsergean          #+#    #+#             */
-/*   Updated: 2022/10/11 23:37:04 by urycherd         ###   ########.fr       */
+/*   Updated: 2022/10/19 20:52:50 by urycherd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,11 @@
 # include <term.h>
 
 # define MAX_PATH 256
-# ifndef OK
-#  define OK 0
-# endif
 
 enum e_tokens
 {
 	TOKEN_SEP,
-	TOKEN_NEWLINE, // это ваще надо?
+	TOKEN_NEWLINE,
 	TOKEN_PIPE,
 	TOKEN_WORD,
 	TOKEN_DQUOTE,
@@ -39,8 +36,6 @@ enum e_tokens
 	TOKEN_OUT_REDIR_APPEND,
 	TOKEN_IN_REDIR,
 	TOKEN_HEREDOC,
-	// TOKEN_L_BRACKET,
-	// TOKEN_R_BRACKET
 };
 
 typedef struct s_redir
@@ -82,29 +77,43 @@ typedef struct s_ppx
 	char	*cmd;
 	pid_t	pid1;
 	pid_t	pid2;
-	// char	**argv;
-	// int		file1;
-	// int		file2;
-	// char	**cmd_args;
 }	t_ppx;
 
-void	deal_with_signals(void);
-
+/*
+** lexer
+*/
 int		lexer(t_main **main, char *input);
-void	deal_with_dollar(char *input, int *i, t_lexem **content);
+void	deal_with_dollar(t_main *main, char *input, int *i, t_lexem **content);
+void	deal_with_redir(char *input, int *i, t_lexem **content);
+void	spc_nwln_pipe(char *input, int *i, t_lexem **content);
+void	deal_with_quotes(char *input, int *i, t_lexem **content);
 void	handle_expansions(t_main **main);
+void	deal_with_word(char *input, int *i, t_lexem **content);
+char	*ft_getenv(t_list *env, char *request);
+
+/*
+** parser
+*/
+int		preparsing(t_main **main, char *input);
+void	parser(t_main **main);
+int		is_redir(t_list *lexem);
+int		get_num_of_args(t_list *lexem);
+int		get_num_of_redirs(t_list *lexem);
+t_list	*get_lexem_wo_sep(t_list *lexem);
+
+/*
+** executor
+*/
 int		executor(t_main *main);
 int		ft_excv(t_main *main, char	**cmd_args, t_list	*next);
 int		deal_heredoc(t_redir *redir, int i);
 void	dup_close(int fd_old, int fd_new);
+int		check_redir(t_list *redir_list);
+int		take_your_builtin(t_main *main, char **args);
 
-int		change_to_spaces_and_check_quotes(char **str);
-int		get_word_len(char *str, int i, char c, int flag);
-void	make_env_list(t_main **main, char **envp);
-char	*ft_strjoin_mod(char *s1, char *s2);
-int		print_error(char *cmd, char *arg, char *error_name);
-int		print_error_nocmd(char *arg, char *error_name);
-
+/*
+** builtins
+*/
 int		ft_cd(t_main *main, char **args);
 int		ft_echo(char **args);
 int		ft_env(t_list *env, char **arg);
@@ -113,13 +122,23 @@ int		ft_export(t_main **main, char **arg);
 int		ft_unset(t_main **main, char **arg);
 int		ft_pwd(void);
 
-//sup functions for builtin
+/*
+** builtins' helpers
+*/
 char	*ft_detect_key(char *str);
 int		arg_export(t_main *main, char *arg);
 int		rewrite_key(char *key, char *path, t_main *main);
 char	**lst_to_arr_str(t_list *env, int size);
 
-void	print_lexems(t_main **main);
-void	print_parsed(t_main **main);
+/*
+** utils
+*/
+void	deal_with_signals(t_main **main);
+int		change_to_spaces_and_check_quotes(char **str);
+int		get_word_len(char *str, int i, char c, int flag);
+void	make_env_list(t_main **main, char **envp);
+char	*ft_strjoin_mod(char *s1, char *s2);
+int		print_error(char *cmd, char *arg, char *error_name);
+int		print_error_nocmd(char *arg, char *error_name);
 
 #endif
